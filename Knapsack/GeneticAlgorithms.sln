@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Knapsack", "Knapsack\Knapsack.vcxproj", "{DADF1EE0-3F26-4D8C-9A07-06C21713712F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Salesman", "Salesman\Salesman.vcxproj", "{B9C2E6C4-6F06-45D5-BE8D-01DCFC95C730}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DADF1EE0-3F26-4D8C-9A07-06C21713712F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DADF1EE0-3F26-4D8C-9A07-06C21713712F}.Debug|Win32.Build.0 = Debug|Win32
+		{DADF1EE0-3F26-4D8C-9A07-06C21713712F}.Release|Win32.ActiveCfg = Release|Win32
+		{DADF1EE0-3F26-4D8C-9A07-06C21713712F}.Release|Win32.Build.0 = Release|Win32
+		{B9C2E6C4-6F06-45D5-BE8D-01DCFC95C730}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B9C2E6C4-6F06-45D5-BE8D-01DCFC95C730}.Debug|Win32.Build.0 = Debug|Win32
+		{B9C2E6C4-6F06-45D5-BE8D-01DCFC95C730}.Release|Win32.ActiveCfg = Release|Win32
+		{B9C2E6C4-6F06-45D5-BE8D-01DCFC95C730}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

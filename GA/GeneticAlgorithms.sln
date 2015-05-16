@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Knapsack", "Knapsack\Knapsa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Salesman", "Salesman\Salesman.vcxproj", "{B9C2E6C4-6F06-45D5-BE8D-01DCFC95C730}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{A6125004-0831-4C66-8B18-A4A8C58CD587}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -21,6 +23,10 @@ Global
 		{B9C2E6C4-6F06-45D5-BE8D-01DCFC95C730}.Debug|Win32.Build.0 = Debug|Win32
 		{B9C2E6C4-6F06-45D5-BE8D-01DCFC95C730}.Release|Win32.ActiveCfg = Release|Win32
 		{B9C2E6C4-6F06-45D5-BE8D-01DCFC95C730}.Release|Win32.Build.0 = Release|Win32
+		{A6125004-0831-4C66-8B18-A4A8C58CD587}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A6125004-0831-4C66-8B18-A4A8C58CD587}.Debug|Win32.Build.0 = Debug|Win32
+		{A6125004-0831-4C66-8B18-A4A8C58CD587}.Release|Win32.ActiveCfg = Release|Win32
+		{A6125004-0831-4C66-8B18-A4A8C58CD587}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

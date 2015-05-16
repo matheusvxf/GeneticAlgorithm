@@ -11,13 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DADF1EE0-3F26-4D8C-9A07-06C21713712F}</ProjectGuid>
+    <ProjectGuid>{B9C2E6C4-6F06-45D5-BE8D-01DCFC95C730}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Knapsack</RootNamespace>
+    <RootNamespace>Salesman</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>Utility</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -78,11 +78,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Knapsack.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClInclude Include="Salesman.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Knapsack.h" />
+    <ClCompile Include="Salesman.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

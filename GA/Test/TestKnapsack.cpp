@@ -1,12 +1,14 @@
-#include "KnapsackTest.h"
+#include "TestKnapsack.h"
 
-namespace KnapsackTest
+#include "Common.h"
+
+namespace TestKnapsack
 {
-    bool ReadNextTestCase(Knapsack &knapsack)
+    bool ReadNextTestCase(std::fstream &fs, Knapsack &knapsack)
     {
         int num_items, capacity;
 
-        scanf_s("%d %d\n", &num_items, &capacity);
+        fs >> num_items >> capacity;
 
         if (num_items == 0)
             return false;
@@ -18,7 +20,7 @@ namespace KnapsackTest
         {
             int value, weight;
 
-            scanf_s("%d %d\n", &value, &weight);
+            fs >> value >> weight;
             knapsack.set_item(i, value, weight);
         }
 

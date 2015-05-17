@@ -7,13 +7,11 @@
 #include "Common.h"
 
 class Bitarray;
-class Genome;
 class Solution;
 class GeneticAlgorithm;
 
 class BitArray
 {
-    friend class Genome;
     typedef std::vector< std::bitset< 64 > > BitArray_t;
 
     BitArray_t array_;

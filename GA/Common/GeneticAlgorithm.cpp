@@ -11,8 +11,8 @@ float GeneticAlgorithm::mutation_rate_ = 0.0f;
 
 uint32_t BitArray::set_size(uint32_t size)
 {
-    size_ = size;
     array_.resize(DivideCeil(size, 64));
+    return size_ = size;
 }
 
 Solution::Solution() : fitness_(0.0f) {}
@@ -38,7 +38,7 @@ Solution* Solution::CrossOver(const Solution* s) const
     srand((uint32_t)time(NULL)); 
     break_point = rand() % gnm_size;
 
-    for (int i = break_point + 1; i < gnm_size; ++i)
+    for (uint32_t i = break_point + 1; i < gnm_size; ++i)
         cross_over->genome_.set(i, s->genome_.get(i));
 
     cross_over->Mutation();
@@ -51,12 +51,14 @@ Solution& Solution::Mutation()
 
     srand((uint32_t)time(NULL));
 
-    for (int i = 0; i < gnm_size; ++i)
+    for (uint32_t i = 0; i < gnm_size; ++i)
     {
         float value = frand();
         if (value <= GeneticAlgorithm::mutation_rate())
             genome_.flip(i);
     }
+
+    return (*this);
 }
 
 GeneticAlgorithm::GeneticAlgorithm() : actual_generation_(0),
@@ -104,7 +106,7 @@ void GeneticAlgorithm::Loop()
 
 void GeneticAlgorithm::GenPopulation()
 {
-    for (int i = 0; i < population_size_; ++i)
+    for (uint32_t i = 0; i < population_size_; ++i)
     {
         population_.insert(factory_->get_random_solution());
     }

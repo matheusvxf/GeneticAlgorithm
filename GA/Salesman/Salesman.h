@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "Graph.h"
+#include "Common.h"
 
 class Salesman
 {
@@ -16,6 +17,7 @@ public:
     ~Salesman();
 
     int SolveDynamicProgramming();
+
     void set_num_vertices(int num_vertices);
     void set_connection(int src, int dst, int cost);
 };

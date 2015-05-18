@@ -9,6 +9,7 @@ typedef unsigned long long int uint64_t;
 typedef signed char int8_t;
 typedef signed long long int int64_t;
 
+#define DEBUG false
 #define INF (1 << 30)
 #define all(Q) Q.begin(), Q.end()
 #define foreach(Q, it) for(auto it = Q.begin(); it != Q.end(); ++it)

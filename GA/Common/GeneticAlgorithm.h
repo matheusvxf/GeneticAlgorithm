@@ -97,11 +97,13 @@ private:
 private:
     static float crossover_rate_;
     static float mutation_rate_;
+    float elitism_size_;
     int num_generation_;
     int actual_generation_;
     uint32_t population_size_;
     SelectionMask selection_mask_;
     SolutionSet population_;
+    SolutionVector population_array_;
     std::vector< float > fitness_;
     Solution *factory_;
     Selection *selection_;
@@ -141,6 +143,7 @@ private:
         Tournament(const GeneticAlgorithm* owner) : Selection(owner), tournemnt_size_(2) {}
 
         void Select(SolutionSet &population);
+        SolutionSet SolutionTournament();
     };
 };
 

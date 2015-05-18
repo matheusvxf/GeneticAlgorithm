@@ -6,8 +6,8 @@
 #include "Common.h"
 
 
-float GeneticAlgorithm::crossover_rate_ = 0.0f;
-float GeneticAlgorithm::mutation_rate_ = 0.0f;
+float GeneticAlgorithm::crossover_rate_ = 70.0f;
+float GeneticAlgorithm::mutation_rate_ = 0.1f;
 
 uint32_t BitArray::set_size(uint32_t size)
 {
@@ -66,7 +66,7 @@ GeneticAlgorithm::GeneticAlgorithm() : actual_generation_(0),
     population_size_(100),
     selection_mask_(TOURNAMENT | ONE_WAY_TOURNAMENT | ELITISM),
     population_(Solution::compare),
-    selection_(new Tournament(this))
+    elitism_size_(2)
 {
 }
 
@@ -82,7 +82,6 @@ int GeneticAlgorithm::set_population_size(int population_size)
 {
     foreach(population_, entity)
         delete *entity;
-    population_.clear();
 
     return population_size_ = population_size;
 }
@@ -106,15 +105,22 @@ void GeneticAlgorithm::Loop()
 
 void GeneticAlgorithm::GenPopulation()
 {
+    foreach(population_, it)
+    if (*it != nullptr)
+        delete *it;
+    population_.clear();
+    population_array_.resize(population_size_);
     for (uint32_t i = 0; i < population_size_; ++i)
-    {
         population_.insert(factory_->get_random_solution());
-    }
+    population_array_.insert(population_array_.begin(), all(population_));
 }
 
 void GeneticAlgorithm::Selection()
 {
     SolutionSet new_population;
+
+    // Initialize random seed
+    srand((uint32_t)time(NULL));
 
     if (selection_mask_ & ELITISM)
     {
@@ -143,6 +149,7 @@ void GeneticAlgorithm::Selection()
         delete *it;
     population_.clear();
     population_.insert(all(new_population));
+    population_array_.insert(population_array_.begin(), all(new_population));
 }
 
 GeneticAlgorithm::Selection::Selection(const GeneticAlgorithm *owner) : owner_(owner) {}
@@ -150,37 +157,41 @@ GeneticAlgorithm::Selection::Selection(const GeneticAlgorithm *owner) : owner_(o
 void GeneticAlgorithm::Tournament::Select(SolutionSet &population)
 {
     SolutionSet new_population;
-    SolutionVector vec(all(owner_->population_));
     uint32_t population_size = owner_->population_size();
     float cross_over;
-
-    srand((uint32_t)time(NULL));
-    cross_over = frand();
     
     while (new_population.size() < population_size)
     {
-        SolutionSet tournament;
-
-        while (tournament.size() < tournemnt_size_)
-        {
-            tournament.insert(vec[rand() % population_size]); // Can repeat
-        }
 
         if (owner_->selection_mask_ & ONE_WAY_TOURNAMENT)
         {
-            auto it = tournament.begin();
-            auto entity_1 = *it++;
-            auto entity_2 = *it++;
+            SolutionSet tournament_1 = SolutionTournament();
+            SolutionSet tournament_2 = SolutionTournament();
+
+            auto entity_1 = *tournament_1.begin();
+            auto entity_2 = *tournament_2.begin();
 
             cross_over = frand();
             if (cross_over <= GeneticAlgorithm::crossover_rate())
+            {
                 new_population.insert(entity_1->CrossOver(entity_2));
+            }
         }
         else
         {
             // TODO
         }
     }
+}
+
+GeneticAlgorithm::SolutionSet GeneticAlgorithm::Tournament::SolutionTournament()
+{
+    SolutionSet tournament;
+    
+    while (tournament.size() < tournemnt_size_)
+        tournament.insert(owner_->population_array_[rand() % owner_->population_size()]); // Can repeat
+
+    return tournament;
 }
 
 bool GeneticAlgorithm::Stop()

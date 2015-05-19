@@ -11,19 +11,6 @@ const uint32_t kElitismSize = 2;
 const uint32_t kNumGenerations = 100;
 const uint32_t kPopulationSize = 100;
 
-GeneticAlgorithm::Solution *GenRandomSolution()
-{
-    auto *new_solution = new GeneticAlgorithm::Solution();
-
-    for (int i = 0, size = new_solution->genome().size(); i < size; ++i)
-    {
-        new_solution->genome().set_random(i);
-    }
-
-    new_solution->CalcFitness();
-    return new_solution;
-}
-
 GeneticAlgorithm::GeneticAlgorithm() :
     num_generation_(kNumGenerations),
     population_size_(kPopulationSize),
@@ -32,7 +19,7 @@ GeneticAlgorithm::GeneticAlgorithm() :
     elitism_size_(kElitismSize),
     mutation_rate_(kMutationRate),
     crossover_rate_(kCrossoverRate),
-    solution_factory_(GenRandomSolution),
+    solution_factory_(nullptr),
     selection_(new Tournament(this))
 {
 }

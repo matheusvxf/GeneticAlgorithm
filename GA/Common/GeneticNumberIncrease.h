@@ -1,10 +1,44 @@
 #pragma once
 
 #include "GeneticAlgorithm.h"
+#include "Genome.h"
 
-class BinaryNumber : public GeneticAlgorithm::Solution
+class NumberGene : public Gene
 {
+    typedef bool Bit;
 
+    Bit bit_;
+
+    virtual Gene& Mutate();
+    virtual Gene& set_random();
+    virtual Gene* clone() const;
+
+public:
+    NumberGene();
+    NumberGene(const NumberGene& number);
+    Bit bit() { return bit_; }
+};
+
+class NumberGenome : public Genome
+{
+public:
+    NumberGenome(uint32_t size);
+    NumberGenome(const NumberGenome& genome);
+
+    Gene *RandomGeneFactory() { return new NumberGene(); };
+    Genome *clone() const;
+};
+
+class NumberSolution : public GeneticAlgorithm::Solution
+{
+public:
+    NumberSolution();
+    NumberSolution(const NumberSolution& solution);
+
+    virtual Solution* clone() const;
+
+    virtual Fitness CalcFitness();
+    
 };
 
 class GeneticNumberIncrease : public GeneticAlgorithm

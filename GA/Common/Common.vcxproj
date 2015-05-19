@@ -70,12 +70,13 @@
     <ClInclude Include="GeneticAlgorithm.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="GeneticNumberIncrease.h" />
+    <ClInclude Include="Genome.h" />
     <ClInclude Include="NumberGenerator.h" />
-    <ClInclude Include="Solution.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneticAlgorithm.cpp" />
     <ClCompile Include="GeneticNumberIncrease.cpp" />
+    <ClCompile Include="Genome.cpp" />
     <ClCompile Include="NumberGenerator.cpp" />
     <ClCompile Include="Solution.cpp" />
   </ItemGroup>

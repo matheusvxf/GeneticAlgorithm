@@ -9,6 +9,10 @@ typedef unsigned long long int uint64_t;
 typedef signed char int8_t;
 typedef signed long long int int64_t;
 
+
+typedef float Fitness;
+
+
 const uint32_t kGenomeSize = 64;
 
 #define DEBUG false

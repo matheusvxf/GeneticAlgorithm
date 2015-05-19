@@ -27,7 +27,7 @@
     <ClInclude Include="GeneticNumberIncrease.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Solution.h">
+    <ClInclude Include="Genome.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -42,6 +42,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Solution.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Genome.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

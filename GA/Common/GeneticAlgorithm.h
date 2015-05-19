@@ -5,39 +5,38 @@
 #include <bitset>
 
 #include "Common.h"
-#include "Solution.h"
+#include "Genome.h"
 
 class GeneticAlgorithm
 {
 public:
     class Solution;
 
-    typedef float Fitness;
     typedef float Rate;
     typedef std::multiset< Solution*, bool(*)(Solution*, Solution*)> SolutionSet;
     typedef Solution*(*SolutionFactory)();
-    typedef BitArray Genome;
 
     class Solution
     {
-    private:
-        Genome genome_;
-        float fitness_;
+    protected:
+        Genome *genome_;
+        Fitness fitness_;
     public:
         Solution();
         Solution(const Solution& genome);
-        virtual Solution* clone() const;
+        virtual ~Solution();
 
         static bool compare(Solution *a, Solution *b);
         static Solution* GenRandomSolution();
 
-        virtual float CalcFitness();
-
         Solution** Crossover(const Solution *s) const;
         Solution& Mutation(Rate mutation_rate);
 
-        inline Genome& genome() { return genome_; }
-        inline float fitness() { return fitness_; }
+        inline Genome& genome() const { return *genome_; }
+        inline Fitness fitness() { return fitness_; }
+
+        virtual Solution* clone() const = 0;
+        virtual float CalcFitness() = 0;
     };
 
 private:

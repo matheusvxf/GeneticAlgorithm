@@ -42,25 +42,33 @@ public:
         int bit = i % 64;
         return array_[word][bit] = ~array_[word][bit];
     }
+
+    inline bit set_random(uint32_t i)
+    {
+        int word = i / 64;
+        int bit = i % 64;
+        return array_[word][bit] = (rand() % 100) < 50 ? 0 : 1;
+    }
 };
 
 typedef BitArray Genome;
 
 class Solution
 {
+private:
     Genome genome_;
     float fitness_;
 public:
     Solution();
     Solution(const Genome& genome);
-
-    void InitRandom();
+     
     static bool compare(Solution *a, Solution *b);
 
-    virtual Solution* get_random_solution();
+    virtual Solution* gen_random_solution();
     virtual Solution* clone();
+    virtual float CalcFitness();
 
-    Solution* CrossOver(const Solution *s) const;
+    Solution** CrossOver(const Solution *s) const;
     Solution& Mutation();
 
     inline float fitness() { return fitness_; }
@@ -97,9 +105,9 @@ private:
 private:
     static float crossover_rate_;
     static float mutation_rate_;
-    float elitism_size_;
-    int num_generation_;
-    int actual_generation_;
+    uint32_t elitism_size_;
+    uint32_t num_generation_;
+    uint32_t actual_generation_;
     uint32_t population_size_;
     SelectionMask selection_mask_;
     SolutionSet population_;
@@ -112,6 +120,7 @@ private:
     void GenPopulation();
     void CalcFitness();
     void Selection();
+    void Elitism(SolutionSet &population);
     void Crossover();
     void Reproduction();
     void Mutation();

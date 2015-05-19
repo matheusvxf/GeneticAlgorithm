@@ -47,7 +47,7 @@ int Salesman::SolveDynamicProgramming()
     foreach(m, vec)
     {
         vec->resize(1 << N);
-        fill(all((*vec)), INF);
+        std::fill(ALL((*vec)), INF);
     }
 
     for (int i = 1; i < N; ++i)

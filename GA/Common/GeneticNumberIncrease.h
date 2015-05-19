@@ -2,7 +2,7 @@
 
 #include "GeneticAlgorithm.h"
 
-class BinaryNumber : public Solution
+class BinaryNumber : public GeneticAlgorithm::Solution
 {
 
 };
@@ -11,8 +11,6 @@ class GeneticNumberIncrease : public GeneticAlgorithm
 {
 public:
     GeneticNumberIncrease();
-    ~GeneticNumberIncrease();
-
-
+    virtual ~GeneticNumberIncrease();
 };
 

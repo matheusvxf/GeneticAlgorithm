@@ -3,10 +3,12 @@
 
 #include "TestKnapsack.h"
 #include "TestTSP.h"
+#include "GeneticNumberIncrease.h"
 
 // Private functions
 static void RunExactKnapsackTest();
 static void RunExactSalesmanTest();
+static void RunSimpleGA();
 
 int main()
 {
@@ -14,6 +16,14 @@ int main()
 
     //RunExactKnapsackTest();
     RunExactSalesmanTest();
+    RunSimpleGA();
+}
+
+void RunSimpleGA()
+{
+    GeneticNumberIncrease GA;
+    
+    GeneticAlgorithm::Solution* solution = GA.Run();
 }
 
 void RunExactKnapsackTest()

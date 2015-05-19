@@ -5,7 +5,6 @@ GeneticNumberIncrease::GeneticNumberIncrease()
 {
 }
 
-
 GeneticNumberIncrease::~GeneticNumberIncrease()
 {
 }

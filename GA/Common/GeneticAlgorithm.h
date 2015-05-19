@@ -5,81 +5,45 @@
 #include <bitset>
 
 #include "Common.h"
-
-class Bitarray;
-class Solution;
-class GeneticAlgorithm;
-
-class BitArray
-{
-    typedef std::vector< std::bitset< 64 > > BitArray_t;
-
-    BitArray_t array_;
-    uint32_t size_;
-
-public:
-    uint32_t set_size(uint32_t size);
-    inline uint32_t size() const { return size_; }
-    inline void assign(BitArray_t::iterator begin, BitArray_t::iterator end) { array_.assign(begin, end); }
-    
-    inline bit get(uint32_t i) const
-    {
-        int word = i / 64;
-        int bit = i % 64;
-        return array_[word][bit];
-    }
-
-    inline bit set(uint32_t i, bit value)
-    {
-        int word = i / 64;
-        int bit = i % 64;
-        return array_[word][bit] = value;
-    }
-
-    inline bit flip(uint32_t i)
-    {
-        int word = i / 64;
-        int bit = i % 64;
-        return array_[word][bit] = ~array_[word][bit];
-    }
-
-    inline bit set_random(uint32_t i)
-    {
-        int word = i / 64;
-        int bit = i % 64;
-        return array_[word][bit] = (rand() % 100) < 50 ? 0 : 1;
-    }
-};
-
-typedef BitArray Genome;
-
-class Solution
-{
-private:
-    Genome genome_;
-    float fitness_;
-public:
-    Solution();
-    Solution(const Genome& genome);
-     
-    static bool compare(Solution *a, Solution *b);
-
-    virtual Solution* gen_random_solution();
-    virtual Solution* clone();
-    virtual float CalcFitness();
-
-    Solution** CrossOver(const Solution *s) const;
-    Solution& Mutation();
-
-    inline float fitness() { return fitness_; }
-};
+#include "Solution.h"
 
 class GeneticAlgorithm
 {
+public:
+    class Solution;
+
+    typedef float Fitness;
+    typedef float Rate;
+    typedef std::multiset< Solution*, bool(*)(Solution*, Solution*)> SolutionSet;
+    typedef Solution*(*SolutionFactory)();
+    typedef BitArray Genome;
+
+    class Solution
+    {
+    private:
+        Genome genome_;
+        float fitness_;
+    public:
+        Solution();
+        Solution(const Solution& genome);
+        virtual Solution* clone() const;
+
+        static bool compare(Solution *a, Solution *b);
+        static Solution* GenRandomSolution();
+
+        virtual float CalcFitness();
+
+        Solution** Crossover(const Solution *s) const;
+        Solution& Mutation(Rate mutation_rate);
+
+        inline Genome& genome() { return genome_; }
+        inline float fitness() { return fitness_; }
+    };
+
 private:
     typedef uint64_t SelectionMask;
-    typedef std::set< Solution*, bool(*)(Solution*, Solution*)> SolutionSet;
     typedef std::vector< Solution* > SolutionVector;
+    
 
     enum SELECTION_MASK
     {
@@ -103,17 +67,16 @@ private:
     };
 
 private:
-    static float crossover_rate_;
-    static float mutation_rate_;
+    Rate crossover_rate_;
+    Rate mutation_rate_;
     uint32_t elitism_size_;
     uint32_t num_generation_;
-    uint32_t actual_generation_;
     uint32_t population_size_;
     SelectionMask selection_mask_;
     SolutionSet population_;
     SolutionVector population_array_;
-    std::vector< float > fitness_;
-    Solution *factory_;
+    std::vector< Fitness > fitness_;
+    SolutionFactory solution_factory_;
     Selection *selection_;
 
     void Loop();
@@ -122,7 +85,6 @@ private:
     void Selection();
     void Elitism(SolutionSet &population);
     void Crossover();
-    void Reproduction();
     void Mutation();
     void Elitism();
     virtual bool Stop(); // Test if should stop. It can delegate task to specific problems
@@ -130,15 +92,15 @@ public:
     GeneticAlgorithm();
     virtual ~GeneticAlgorithm();
 
-    void Run();
+    Solution* Run();
 
-    Solution *set_factory(Solution *factory) { return factory_ = factory; }
     int set_population_size(int population_size);
-    inline int set_num_generation_(int num_generation) { return num_generation_ = num_generation; }
 
+    inline SolutionFactory& set_solution_factory_(SolutionFactory factory) { return solution_factory_ = factory; }
+    inline int set_num_generation_(int num_generation) { return num_generation_ = num_generation; }
     inline uint32_t population_size() const { return population_size_; }
-    static inline float mutation_rate() { return mutation_rate_; }
-    static inline float crossover_rate() { return crossover_rate_; }
+    inline float mutation_rate() const { return mutation_rate_; }
+    inline float crossover_rate() const { return crossover_rate_; }
 
 private:
     class Tournament : Selection

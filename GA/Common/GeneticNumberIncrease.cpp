@@ -1,5 +1,16 @@
 #include "GeneticNumberIncrease.h"
 
+static GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm *algorithm_manager);
+
+GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm *algorithm_manager)
+{
+    auto *new_solution = new NumberSolution();
+
+    new_solution->genome().Randomize();
+    new_solution->CalcFitness(*algorithm_manager);
+    return new_solution;
+}
+
 NumberGene::NumberGene() {
     set_random();
 }
@@ -43,15 +54,6 @@ GeneticAlgorithm::Solution *NumberSolution::clone() const
     return new NumberSolution(*this);
 }
 
-GeneticAlgorithm::Solution *GenRandomSolution()
-{
-    auto *new_solution = new NumberSolution();
-
-    new_solution->genome().randomize();
-    new_solution->CalcFitness();
-    return new_solution;
-}
-
 GeneticNumberIncrease::GeneticNumberIncrease()
 {
     set_solution_factory_(GenRandomSolution);
@@ -61,13 +63,13 @@ GeneticNumberIncrease::~GeneticNumberIncrease()
 {
 }
 
-float NumberSolution::CalcFitness()
+float NumberSolution::CalcFitness(const GeneticAlgorithm &manager)
 {
     fitness_ = 0.0f;
 
     for (int i = 0, size = genome_->size(); i < size; ++i)
     {
-        fitness_ += ((NumberGene*)&genome_->get(i))->bit();
+        fitness_ += ((NumberGene*)&genome_->gene(i))->bit();
     }
 
     return fitness_;

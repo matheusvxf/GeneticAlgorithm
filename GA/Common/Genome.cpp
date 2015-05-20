@@ -23,6 +23,7 @@ Genome::~Genome()
 
 uint32_t Genome::set_size(uint32_t size)
 {
+    gene_.resize(size);
     return size_ = size;
 }
 

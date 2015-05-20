@@ -3,6 +3,8 @@
 #include <vector>
 #include <algorithm>
 
+#include "GeneticKnapsack.h"
+
 #define all(Q) Q.begin(), Q.end()
 
 Knapsack::Knapsack()
@@ -45,4 +47,16 @@ int Knapsack::SolveDynamicProgramming()
     }
 
     return m[0][W];
+}
+
+int Knapsack::SolveGA()
+{
+    KnapsackGeneticAlgorithm GA;
+
+    GA.set_capacity(knapsack_capacity_);
+    GA.set_knapsack(*this);
+
+
+    GeneticAlgorithm::Solution* solution = GA.Run();
+    return 2;
 }

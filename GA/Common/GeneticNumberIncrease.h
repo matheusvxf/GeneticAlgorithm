@@ -37,7 +37,7 @@ public:
 
     virtual Solution* clone() const;
 
-    virtual Fitness CalcFitness();
+    virtual Fitness CalcFitness(const GeneticAlgorithm &manager);
     
 };
 

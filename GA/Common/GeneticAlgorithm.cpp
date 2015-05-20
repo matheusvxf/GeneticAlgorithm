@@ -68,7 +68,7 @@ void GeneticAlgorithm::GenPopulation()
     population_.clear();
     population_array_.resize(population_size_);
     for (uint32_t i = 0; i < population_size_; ++i)
-        population_.insert(solution_factory_());
+        population_.insert(solution_factory_(this));
     population_array_.assign(ALL(population_));
 }
 
@@ -125,25 +125,29 @@ void GeneticAlgorithm::Tournament::Select(SolutionSet &population)
         {
             SolutionSet tournament_1 = SolutionTournament();
             SolutionSet tournament_2 = SolutionTournament();
-            auto entity_1 = *tournament_1.begin();
-            auto entity_2 = *tournament_2.begin();
+            Solution* entity[] = { *tournament_1.begin(), *tournament_2.begin() };
             float cross_over_p = frand();
 
             if (cross_over_p <= crossover_rate)
             {
-                Solution** children = entity_1->Crossover(entity_2);
-                children[0]->Mutation(mutation_rate);
-                children[1]->Mutation(mutation_rate);
+                Solution** children = entity[0]->Crossover(entity[1]);
+                for (int i = 0; i < 2; ++i)
+                {
+                    children[i]->Mutation(mutation_rate);
+                    children[i]->CalcFitness(*owner_);
+                }
+                
                 population.insert({ children[0], children[1] });
             }
             else
             {
-                Solution *child_1 = entity_1->clone();
-                Solution *child_2 = entity_2->clone();
-
-                child_1->Mutation(mutation_rate);
-                child_2->Mutation(mutation_rate);
-                population.insert({ child_1, child_2 });
+                for (int i = 0; i < 2; ++i)
+                {
+                    Solution *child = entity[i]->clone();
+                    child->Mutation(mutation_rate);
+                    child->CalcFitness(*owner_);
+                    population.insert(child);
+                }
             }
         }
         else

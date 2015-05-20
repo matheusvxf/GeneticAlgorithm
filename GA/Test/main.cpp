@@ -6,7 +6,7 @@
 #include "GeneticNumberIncrease.h"
 
 // Private functions
-static void RunExactKnapsackTest();
+static void RunKnapsackTest();
 static void RunExactSalesmanTest();
 static void RunSimpleGA();
 
@@ -14,9 +14,9 @@ int main()
 {
     using namespace std;
 
-    //RunExactKnapsackTest();
     RunExactSalesmanTest();
-    RunSimpleGA();
+    RunKnapsackTest();
+    //RunSimpleGA();
 }
 
 void RunSimpleGA()
@@ -26,7 +26,7 @@ void RunSimpleGA()
     GeneticAlgorithm::Solution* solution = GA.Run();
 }
 
-void RunExactKnapsackTest()
+void RunKnapsackTest()
 {
     using namespace TestKnapsack;
     Knapsack knapsack;
@@ -36,7 +36,8 @@ void RunExactKnapsackTest()
     
     while (ReadNextTestCase(fs, knapsack))
     {
-        printf("Solution: %d\n", knapsack.SolveDynamicProgramming());
+        printf("Dynamic Programming Solution: %d\n", knapsack.SolveDynamicProgramming());
+        printf("Genetic Algorithm Solution: %d\n", knapsack.SolveGA());
     }
 
     fs.close();

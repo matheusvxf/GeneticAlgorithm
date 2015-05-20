@@ -14,7 +14,7 @@ public:
 
     typedef float Rate;
     typedef std::multiset< Solution*, bool(*)(Solution*, Solution*)> SolutionSet;
-    typedef Solution*(*SolutionFactory)();
+    typedef Solution*(*SolutionFactory)(GeneticAlgorithm *algorithm_manager);
 
     class Solution
     {
@@ -36,7 +36,7 @@ public:
         inline Fitness fitness() { return fitness_; }
 
         virtual Solution* clone() const = 0;
-        virtual float CalcFitness() = 0;
+        virtual float CalcFitness(const GeneticAlgorithm &algorithm_manager) = 0;
     };
 
 private:
@@ -57,6 +57,7 @@ private:
 
     class Selection
     {
+    protected:
         friend class GeneticAlgorithm;
         const GeneticAlgorithm *owner_;
 
@@ -74,7 +75,6 @@ private:
     SelectionMask selection_mask_;
     SolutionSet population_;
     SolutionVector population_array_;
-    std::vector< Fitness > fitness_;
     SolutionFactory solution_factory_;
     Selection *selection_;
 

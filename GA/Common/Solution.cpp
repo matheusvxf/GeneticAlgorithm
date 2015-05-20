@@ -31,18 +31,16 @@ GeneticAlgorithm::Solution** GeneticAlgorithm::Solution::Crossover(const Solutio
     
     while (i <= break_point)
     {
-        child_1->genome_->set(i, s->genome_->get(i));
+        child_1->genome_->set_gene(i, s->genome_->gene(i));
         i++;
     }
 
     while (i < gnm_size)
     {
-        child_2->genome_->set(i, s->genome_->get(i));
+        child_2->genome_->set_gene(i, s->genome_->gene(i));
         i++;
     }
 
-    child_1->CalcFitness();
-    child_2->CalcFitness();
     result[0] = child_1;
     result[1] = child_2;
     return result;
@@ -57,6 +55,5 @@ GeneticAlgorithm::Solution& GeneticAlgorithm::Solution::Mutation(Rate mutation_r
             genome_->Mutate(i);
     }
 
-    CalcFitness();
     return (*this);
 }

@@ -4,7 +4,8 @@
 
 class Knapsack
 {
-private:
+public:
+
     class Item
     {
         friend class Knapsack;
@@ -13,7 +14,9 @@ private:
         int value;
     };
 
-    std::vector< Item > items_;
+    typedef std::vector< Item > KnapsackContainer;
+private:
+    KnapsackContainer items_;
     int knapsack_capacity_;
 public:
     Knapsack();
@@ -22,6 +25,13 @@ public:
     inline void set_num_items(int num_items) { items_.resize(num_items); }
     inline void set_capacity(int capacity) { knapsack_capacity_ = capacity; }
     inline void set_item(int item_id, int value, int weight) { items_[item_id].value = value; items_[item_id].weight = weight; }
+    inline int num_items() { return items_.size(); }
+    inline int weight(int i) { return items_[i].weight; }
+    inline int value(int i) { return items_[i].value; }
+    inline int capacity() { return knapsack_capacity_; }
     int SolveDynamicProgramming();
+    int SolveGA();
+
+
 };
 

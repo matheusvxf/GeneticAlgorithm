@@ -6,6 +6,7 @@
 
 #include "Common.h"
 
+/*
 static GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm *algorithm_manager);
 
 GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm *algorithm_manager)
@@ -119,4 +120,4 @@ void TSPGeneticAlgorithm::set_TSP(TSP &TSP)
 {
     num_items_ = TSP.num_items();
     TSP_ = &TSP;
-}
+}*/

@@ -46,7 +46,7 @@ class TSPGeneticAlgorithm : public GeneticAlgorithm
 private:
     int capacity_;
     int num_items_;
-    TSP *TSP_; // lent
+    
 
 public:
 
@@ -54,8 +54,8 @@ public:
     virtual ~TSPGeneticAlgorithm();
 
     int set_capacity(int capacity) { return capacity_ = capacity; }
-    void set_TSP(TSP &TSP);
+    
     int num_items() { return num_items_; }
     int capacity() { return capacity_; }
-    TSP &TSP() { return *TSP_; }
+    
 };

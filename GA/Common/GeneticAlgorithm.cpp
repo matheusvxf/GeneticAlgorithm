@@ -9,7 +9,7 @@ const GeneticAlgorithm::Rate kCrossoverRate = 70.0f;
 const GeneticAlgorithm::Rate kMutationRate = 0.1f;
 const uint32_t kElitismSize = 2;
 const uint32_t kNumGenerations = 100;
-const uint32_t kPopulationSize = 100;
+const uint32_t kPopulationSize = 1000;
 
 GeneticAlgorithm::GeneticAlgorithm() :
     num_generation_(kNumGenerations),

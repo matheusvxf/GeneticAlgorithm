@@ -46,13 +46,16 @@ GeneticAlgorithm::Solution** GeneticAlgorithm::Solution::Crossover(const Solutio
     return result;
 }
 
-GeneticAlgorithm::Solution& GeneticAlgorithm::Solution::Mutation(Rate mutation_rate)
+GeneticAlgorithm::Solution& GeneticAlgorithm::IHasInvidualMutation::Mutation(GeneticAlgorithm& manager)
 {
+    auto genome = static_cast<IGenomeGeneIndependent*>(genome_);
+    GeneticAlgorithm::Rate mutation_rate = manager.mutation_rate();
+
     for (int i = 0, size = genome_->size(); i < size; ++i)
     {
         float value = frand();
         if (value <= mutation_rate)
-            genome_->Mutate(i);
+            genome->Mutate(i);
     }
 
     return (*this);

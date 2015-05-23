@@ -14,7 +14,7 @@ public:
 
     typedef float Rate;
     typedef std::multiset< Solution*, bool(*)(Solution*, Solution*)> SolutionSet;
-    typedef Solution*(*SolutionFactory)(GeneticAlgorithm *algorithm_manager);
+    typedef Solution*(*SolutionFactory)(GeneticAlgorithm &algorithm_manager);
 
     class Solution
     {
@@ -30,13 +30,21 @@ public:
         static Solution* GenRandomSolution();
 
         Solution** Crossover(const Solution *s) const;
-        Solution& Mutation(Rate mutation_rate);
 
         inline Genome& genome() const { return *genome_; }
         inline Fitness fitness() { return fitness_; }
 
+        virtual Solution& Mutation(GeneticAlgorithm &manager) = 0;
         virtual Solution* clone() const = 0;
-        virtual float CalcFitness(const GeneticAlgorithm &algorithm_manager) = 0;
+        virtual float CalcFitness(GeneticAlgorithm &algorithm_manager) = 0;
+    };
+
+    class IHasInvidualMutation : public Solution
+    {
+    public:
+        IHasInvidualMutation() {}
+        IHasInvidualMutation(const IHasInvidualMutation& solution) : Solution(solution) {}
+        virtual Solution& Mutation(GeneticAlgorithm &manager);
     };
 
 private:
@@ -59,9 +67,9 @@ private:
     {
     protected:
         friend class GeneticAlgorithm;
-        const GeneticAlgorithm *owner_;
+        GeneticAlgorithm *owner_;
 
-        Selection(const GeneticAlgorithm *owner);
+        Selection(GeneticAlgorithm *owner);
 
         virtual void Select(SolutionSet &population) = 0;
     };
@@ -80,12 +88,8 @@ private:
 
     void Loop();
     void GenPopulation();
-    void CalcFitness();
     void Selection();
     void Elitism(SolutionSet &population);
-    void Crossover();
-    void Mutation();
-    void Elitism();
     virtual bool Stop(); // Test if should stop. It can delegate task to specific problems
 public:
     GeneticAlgorithm();
@@ -110,7 +114,7 @@ private:
         uint32_t tournemnt_size_;
     public:
 
-        Tournament(const GeneticAlgorithm* owner) : Selection(owner), tournemnt_size_(2) {}
+        Tournament(GeneticAlgorithm* owner) : Selection(owner), tournemnt_size_(2) {}
 
         void Select(SolutionSet &population);
         SolutionSet SolutionTournament();

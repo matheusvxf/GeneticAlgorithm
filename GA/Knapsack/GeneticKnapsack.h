@@ -3,33 +3,35 @@
 #include "GeneticAlgorithm.h"
 #include "Knapsack.h"
 
-class KnapsackGene : public Gene
+class KnapsackGene : public IGeneIndependent
 {
     typedef bool Bit;
 
     Bit bit_;
 
-    virtual Gene& Mutate();
     virtual Gene& set_random();
     virtual Gene* clone() const;
 
 public:
     KnapsackGene();
     KnapsackGene(const KnapsackGene& gene);
+
+    virtual Gene& Mutate();
+
     inline Bit bit() { return bit_; }
 };
 
-class KnapsackGenome : public Genome
+class KnapsackGenome : public IGenomeGeneIndependent
 {
 public:
-    KnapsackGenome(uint32_t size);
+    KnapsackGenome();
     KnapsackGenome(const KnapsackGenome& genome);
 
     Gene *RandomGeneFactory() { return new KnapsackGene(); };
     Genome *clone() const;
 };
 
-class KnapsackSolution : public GeneticAlgorithm::Solution
+class KnapsackSolution : public GeneticAlgorithm::IHasInvidualMutation
 {
 public:
     KnapsackSolution();
@@ -37,7 +39,7 @@ public:
 
     virtual Solution* clone() const;
 
-    virtual Fitness CalcFitness(const GeneticAlgorithm &algorithm_manager);
+    virtual Fitness CalcFitness(GeneticAlgorithm &algorithm_manager);
 
 };
 
@@ -55,7 +57,7 @@ public:
 
     int set_capacity(int capacity) { return capacity_ = capacity; }
     void set_knapsack(Knapsack &knapsack);
-    int num_items() { return num_items_; }
-    int capacity() { return capacity_; }
-    Knapsack &knapsack() { return *knapsack_; }
+    int num_items() const { return num_items_; }
+    int capacity() const { return capacity_; }
+    const Knapsack& knapsack() const { return *knapsack_; }
 };

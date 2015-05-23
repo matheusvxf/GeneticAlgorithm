@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GeneticAlgorithm.h"
-
+#include "Salesman.h"
 
 class TSPGene : public Gene
 {
@@ -9,8 +9,6 @@ class TSPGene : public Gene
 
     Bit bit_;
 
-    virtual Gene& Mutate();
-    virtual Gene& set_random();
     virtual Gene* clone() const;
 
 public:
@@ -25,8 +23,10 @@ public:
     TSPGenome(uint32_t size);
     TSPGenome(const TSPGenome& genome);
 
+    Genome& Randomize(GeneticAlgorithm &algorithm_manager);
     Gene *RandomGeneFactory() { return new TSPGene(); };
     Genome *clone() const;
+    virtual int set_gene(uint32_t i, int city);
 };
 
 class TSPSolution : public GeneticAlgorithm::Solution
@@ -34,28 +34,24 @@ class TSPSolution : public GeneticAlgorithm::Solution
 public:
     TSPSolution();
     TSPSolution(const TSPSolution& solution);
-
-    virtual Solution* clone() const;
-
-    virtual Fitness CalcFitness(const GeneticAlgorithm &algorithm_manager);
-
+    
+    Solution* clone() const;
+    GeneticAlgorithm::Solution& Mutation(GeneticAlgorithm& manager);
+    Fitness CalcFitness(GeneticAlgorithm &algorithm_manager);
 };
 
 class TSPGeneticAlgorithm : public GeneticAlgorithm
 {
 private:
-    int capacity_;
-    int num_items_;
-    TSP *TSP_; // lent
+    Salesman *salesman_; // lent
+    std::vector< int > cities_array_; // Keep to shuffle and generate random solutions
 
 public:
-
     TSPGeneticAlgorithm();
     virtual ~TSPGeneticAlgorithm();
 
-    int set_capacity(int capacity) { return capacity_ = capacity; }
-    void set_TSP(TSP &TSP);
-    int num_items() { return num_items_; }
-    int capacity() { return capacity_; }
-    TSP &TSP() { return *TSP_; }
+    Salesman& set_salesman(Salesman &TSP);
+    inline Salesman& salesman() const { return *salesman_; }
+    inline std::vector< int >& cities_array() { return cities_array_; }
+    inline int num_cities() const { return salesman_->num_cities(); }
 };

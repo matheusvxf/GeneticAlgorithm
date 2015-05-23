@@ -4,15 +4,23 @@
 
 #include "Common.h"
 
+class GeneticAlgorithm;
+
 class Gene
 {
 public:
     Gene();
     virtual ~Gene();
 
-    virtual Gene& Mutate() = 0;
-    virtual Gene& set_random() = 0;
+    //virtual Gene& Mutate() = 0;
+    //virtual Gene& set_random() = 0;
     virtual Gene* clone() const = 0;
+};
+
+class IGeneIndependent : public Gene
+{
+public:
+    virtual Gene& Mutate() = 0;
 };
 
 class Genome
@@ -29,17 +37,21 @@ public:
     Genome(const Genome &genome);
     virtual ~Genome();
 
-    uint32_t set_size(uint32_t size);
     inline uint32_t size() const { return size_; }
 
     inline Gene& gene(uint32_t i);
     inline Gene& set_gene(uint32_t i, Gene& value);
-    virtual inline Genome& Randomize();
-    virtual inline Gene& set_random(uint32_t i);
-    virtual inline Gene& Mutate(uint32_t i);
+    virtual Genome& Randomize(GeneticAlgorithm &algorithm_manager);
+    virtual uint32_t set_size(uint32_t size);
 
     virtual Gene *RandomGeneFactory() = 0;
     virtual Genome *clone() const = 0;
+};
+
+class IGenomeGeneIndependent : public Genome
+{
+public:
+    virtual Gene& Mutate(uint32_t i);
 };
 
 inline Gene& Genome::gene(uint32_t i)
@@ -51,33 +63,3 @@ inline Gene& Genome::set_gene(uint32_t i, Gene& value)
 {
     return *gene_[i] = value;
 }
-
-inline Gene& Genome::Mutate(uint32_t i)
-{
-    return gene_[i]->Mutate();
-}
-
-inline Genome& Genome::Randomize()
-{
-    if (gene_.size() != 0)
-    {
-        foreach(gene_, it)
-            delete *it;
-    }
-
-    gene_.resize(size_);
-    for (uint32_t i = 0; i < size_; ++i)
-    {
-        gene_[i] = RandomGeneFactory();
-    }
-
-    return *this;
-}
-
-inline Gene& Genome::set_random(uint32_t i)
-{
-    return gene_[i]->set_random();
-}
-
-
-

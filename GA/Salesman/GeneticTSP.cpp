@@ -6,41 +6,26 @@
 
 #include "Common.h"
 
-static GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm *algorithm_manager);
+static GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
 
-GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm *algorithm_manager)
+GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager)
 {
-    auto *new_solution = new TSPSolution();
-    auto *manager = (TSPGeneticAlgorithm*)algorithm_manager;
+    auto new_solution = new TSPSolution();
+    auto manager = static_cast<const TSPGeneticAlgorithm*>(&algorithm_manager);
 
-    new_solution->genome().set_size(manager->num_items());
-    new_solution->genome().Randomize();
-    new_solution->CalcFitness(*algorithm_manager);
+    new_solution->genome().set_size(manager->num_cities());
+    new_solution->genome().Randomize(algorithm_manager);
+    new_solution->CalcFitness(algorithm_manager);
     return new_solution;
 }
 
-TSPGene::TSPGene()
-{
-    set_random();
-}
+TSPGene::TSPGene() {}
 
 TSPGene::TSPGene(const TSPGene& number) : bit_(number.bit_) {}
 
 Gene* TSPGene::clone() const
 {
     return new TSPGene(*this);
-}
-
-Gene& TSPGene::Mutate()
-{
-    bit_ = !bit_;
-    return *this;
-}
-
-Gene& TSPGene::set_random()
-{
-    bit_ = (rand() % 100) < 50 ? 0 : 1;
-    return *this;
 }
 
 TSPGenome::TSPGenome(uint32_t size) : Genome(size) {}
@@ -50,6 +35,21 @@ TSPGenome::TSPGenome(const TSPGenome& genome) : Genome(genome) {}
 Genome *TSPGenome::clone() const
 {
     return new TSPGenome(*this);
+}
+
+Genome& TSPGenome::Randomize(GeneticAlgorithm &algorithm_manager)
+{
+    auto *manager = static_cast<TSPGeneticAlgorithm*>(&algorithm_manager);
+    auto &cities_array = manager->cities_array();
+    int num_cities = manager->num_cities();
+    auto seed = static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count());
+    
+    std::shuffle(ALL(cities_array), std::default_random_engine(seed));
+
+    for (int i = 0; i < num_cities; ++i)
+        set_gene(i, i);
+
+    return *this;
 }
 
 TSPSolution::TSPSolution()
@@ -64,44 +64,21 @@ GeneticAlgorithm::Solution *TSPSolution::clone() const
     return new TSPSolution(*this);
 }
 
+GeneticAlgorithm::Solution& TSPSolution::Mutation(GeneticAlgorithm& manager)
+{
+    
 
+    return (*this);
+}
 
-float TSPSolution::CalcFitness(const GeneticAlgorithm &algorithm_manager)
+float TSPSolution::CalcFitness(GeneticAlgorithm &algorithm_manager)
 {
     TSPGeneticAlgorithm *manager = (TSPGeneticAlgorithm*)&algorithm_manager;
-    TSP &TSP = manager->TSP();
+    Salesman &salesman = manager->salesman();
     std::vector< int > vec;
     int num_genes = genome_->size();
     int weight = 0;
     fitness_ = 0.0f;
-
-
-    for (int i = 0; i < num_genes; ++i)
-    {
-        Bit bit = ((TSPGene*)&genome_->gene(i))->bit();
-        if (bit == true)
-        {
-            vec.push_back(i); // Store items in the TSP to remove if weight is exceeded
-            fitness_ += TSP.value(i);
-            weight += TSP.weight(i);
-        }
-    }
-
-    if (weight > TSP.capacity())
-    {
-        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-        std::shuffle(ALL(vec), std::default_random_engine(seed));
-
-        // Randomly remove items from the TSP
-        while (weight > TSP.capacity())
-        {
-            int i = vec.back(); vec.pop_back();
-
-            genome_->gene(i).Mutate();
-            fitness_ -= TSP.value(i);
-            weight -= TSP.weight(i);
-        }
-    }
 
     return fitness_;
 }
@@ -115,8 +92,14 @@ TSPGeneticAlgorithm::~TSPGeneticAlgorithm()
 {
 }
 
-void TSPGeneticAlgorithm::set_TSP(TSP &TSP)
+Salesman& TSPGeneticAlgorithm::set_salesman(Salesman &salesman)
 {
-    num_items_ = TSP.num_items();
-    TSP_ = &TSP;
+    int num_cities = salesman.num_cities();
+    salesman_ = &salesman;
+    
+    cities_array_.resize(num_cities);
+    for (int i = 0; i < num_cities; ++i)
+        cities_array_[i] = i;
+
+    return *salesman_;
 }

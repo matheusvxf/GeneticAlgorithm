@@ -6,16 +6,16 @@
 
 #include "Common.h"
 
-static GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm *algorithm_manager);
+static GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
 
-GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm *algorithm_manager)
+GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager)
 {
-    auto *new_solution = new KnapsackSolution();
-    auto *manager = (KnapsackGeneticAlgorithm*)algorithm_manager;
+    auto new_solution = new KnapsackSolution();
+    auto &manager = *static_cast<KnapsackGeneticAlgorithm*>(&algorithm_manager);
 
-    new_solution->genome().set_size(manager->num_items());
-    new_solution->genome().Randomize();
-    new_solution->CalcFitness(*algorithm_manager);
+    new_solution->genome().set_size(manager.num_items());
+    new_solution->genome().Randomize(manager);
+    new_solution->CalcFitness(algorithm_manager);
     return new_solution;
 }
 
@@ -43,9 +43,9 @@ Gene& KnapsackGene::set_random()
     return *this;
 }
 
-KnapsackGenome::KnapsackGenome(uint32_t size) : Genome(size) {}
+KnapsackGenome::KnapsackGenome() : IGenomeGeneIndependent() {}
 
-KnapsackGenome::KnapsackGenome(const KnapsackGenome& genome) : Genome(genome) {}
+KnapsackGenome::KnapsackGenome(const KnapsackGenome& genome) : IGenomeGeneIndependent(genome) {}
 
 Genome *KnapsackGenome::clone() const
 {
@@ -54,22 +54,20 @@ Genome *KnapsackGenome::clone() const
 
 KnapsackSolution::KnapsackSolution()
 {
-    genome_ = new KnapsackGenome(kGenomeSize);
+    genome_ = new KnapsackGenome();
 }
 
-KnapsackSolution::KnapsackSolution(const KnapsackSolution& solution) : Solution(solution) {}
+KnapsackSolution::KnapsackSolution(const KnapsackSolution& solution) : IHasInvidualMutation(solution) {}
 
 GeneticAlgorithm::Solution *KnapsackSolution::clone() const
 {
     return new KnapsackSolution(*this);
 }
 
-
-
-float KnapsackSolution::CalcFitness(const GeneticAlgorithm &algorithm_manager)
+float KnapsackSolution::CalcFitness(GeneticAlgorithm &algorithm_manager)
 {
-    KnapsackGeneticAlgorithm *manager = (KnapsackGeneticAlgorithm*)&algorithm_manager;
-    Knapsack &knapsack = manager->knapsack();
+    auto &manager = *static_cast<KnapsackGeneticAlgorithm*>(&algorithm_manager);
+    const Knapsack &knapsack = manager.knapsack();
     std::vector< int > vec;
     int num_genes = genome_->size();
     int weight = 0;
@@ -89,7 +87,7 @@ float KnapsackSolution::CalcFitness(const GeneticAlgorithm &algorithm_manager)
 
     if (weight > knapsack.capacity())
     {
-        unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+        auto seed = static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count());
         std::shuffle(ALL(vec), std::default_random_engine(seed));
 
         // Randomly remove items from the knapsack
@@ -97,7 +95,7 @@ float KnapsackSolution::CalcFitness(const GeneticAlgorithm &algorithm_manager)
         {
             int i = vec.back(); vec.pop_back();
 
-            genome_->gene(i).Mutate();
+            static_cast<KnapsackGene*>(&genome_->gene(i))->Mutate();
             fitness_ -= knapsack.value(i);
             weight -= knapsack.weight(i);
         }

@@ -1,13 +1,13 @@
 #include "GeneticNumberIncrease.h"
 
-static GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm *algorithm_manager);
+static GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
 
-GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm *algorithm_manager)
+GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager)
 {
     auto *new_solution = new NumberSolution();
 
-    new_solution->genome().Randomize();
-    new_solution->CalcFitness(*algorithm_manager);
+    new_solution->genome().Randomize(algorithm_manager);
+    new_solution->CalcFitness(algorithm_manager);
     return new_solution;
 }
 
@@ -47,7 +47,7 @@ NumberSolution::NumberSolution() {
     genome_ = new NumberGenome(kGenomeSize);
 }
 
-NumberSolution::NumberSolution(const NumberSolution& solution) : Solution(solution) {}
+NumberSolution::NumberSolution(const NumberSolution& solution) : IHasInvidualMutation(solution) {}
 
 GeneticAlgorithm::Solution *NumberSolution::clone() const
 {
@@ -63,7 +63,7 @@ GeneticNumberIncrease::~GeneticNumberIncrease()
 {
 }
 
-float NumberSolution::CalcFitness(const GeneticAlgorithm &manager)
+float NumberSolution::CalcFitness(GeneticAlgorithm &manager)
 {
     fitness_ = 0.0f;
 

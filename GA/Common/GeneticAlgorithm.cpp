@@ -9,7 +9,7 @@ const GeneticAlgorithm::Rate kCrossoverRate = 70.0f;
 const GeneticAlgorithm::Rate kMutationRate = 0.1f;
 const uint32_t kElitismSize = 2;
 const uint32_t kNumGenerations = 100;
-const uint32_t kPopulationSize = 1000;
+const uint32_t kPopulationSize = 100;
 
 GeneticAlgorithm::GeneticAlgorithm() :
     num_generation_(kNumGenerations),
@@ -68,7 +68,7 @@ void GeneticAlgorithm::GenPopulation()
     population_.clear();
     population_array_.resize(population_size_);
     for (uint32_t i = 0; i < population_size_; ++i)
-        population_.insert(solution_factory_(this));
+        population_.insert(solution_factory_(*this));
     population_array_.assign(ALL(population_));
 }
 
@@ -111,7 +111,7 @@ void GeneticAlgorithm::Elitism(SolutionSet &population)
     }
 }
 
-GeneticAlgorithm::Selection::Selection(const GeneticAlgorithm *owner) : owner_(owner) {}
+GeneticAlgorithm::Selection::Selection(GeneticAlgorithm *owner) : owner_(owner) {}
 
 void GeneticAlgorithm::Tournament::Select(SolutionSet &population)
 {
@@ -133,7 +133,7 @@ void GeneticAlgorithm::Tournament::Select(SolutionSet &population)
                 Solution** children = entity[0]->Crossover(entity[1]);
                 for (int i = 0; i < 2; ++i)
                 {
-                    children[i]->Mutation(mutation_rate);
+                    children[i]->Mutation(*owner_);
                     children[i]->CalcFitness(*owner_);
                 }
                 
@@ -144,7 +144,7 @@ void GeneticAlgorithm::Tournament::Select(SolutionSet &population)
                 for (int i = 0; i < 2; ++i)
                 {
                     Solution *child = entity[i]->clone();
-                    child->Mutation(mutation_rate);
+                    child->Mutation(*owner_);
                     child->CalcFitness(*owner_);
                     population.insert(child);
                 }

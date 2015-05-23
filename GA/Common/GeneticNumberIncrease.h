@@ -29,7 +29,7 @@ public:
     Genome *clone() const;
 };
 
-class NumberSolution : public GeneticAlgorithm::Solution
+class NumberSolution : public GeneticAlgorithm::IHasInvidualMutation
 {
 public:
     NumberSolution();
@@ -37,7 +37,7 @@ public:
 
     virtual Solution* clone() const;
 
-    virtual Fitness CalcFitness(const GeneticAlgorithm &manager);
+    virtual Fitness CalcFitness(GeneticAlgorithm &manager);
     
 };
 

@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "Common.h"
+#include "TSPGenetic.h"
 
 #define EMPTY_SET 0x00
 #define INSERT_TO_SET(S, i) (S = (S | (1 << i)))
@@ -15,6 +16,17 @@ Salesman::Salesman()
 
 Salesman::~Salesman()
 {
+}
+
+void Salesman::set_num_vertices(int num_vertices)
+{
+    graph_.set_num_nodes(num_vertices);
+}
+
+void Salesman::set_connection(int src, int dst, int cost)
+{
+    graph_.set_cost(src, dst, cost);
+    graph_.set_cost(dst, src, cost);
 }
 
 int Salesman::DynamicProgrammingRecursion(int i, int S)
@@ -59,13 +71,14 @@ int Salesman::SolveDynamicProgramming()
     return DynamicProgrammingRecursion(0, S);
 }
 
-void Salesman::set_num_vertices(int num_vertices)
+float Salesman::SolveGA()
 {
-    graph_.set_num_nodes(num_vertices);
+    TSPGeneticAlgorithm genetic;
+    Solution *salesman;
+
+    genetic.set_salesman(*this);
+
+    salesman =  genetic.Run();
+    return salesman->fitness();
 }
 
-void Salesman::set_connection(int src, int dst, int cost)
-{
-    graph_.set_cost(src, dst, cost);
-    graph_.set_cost(dst, src, cost);
-}

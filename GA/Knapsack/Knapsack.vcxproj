@@ -82,11 +82,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GeneticKnapsack.cpp" />
+    <ClCompile Include="KnapsackGenetic.cpp" />
     <ClCompile Include="Knapsack.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GeneticKnapsack.h" />
+    <ClInclude Include="KnapsackGenetic.h" />
     <ClInclude Include="Knapsack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

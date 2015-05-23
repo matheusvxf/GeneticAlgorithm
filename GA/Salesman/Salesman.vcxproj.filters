@@ -24,7 +24,7 @@
     <ClInclude Include="Combination.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneticTSP.h">
+    <ClInclude Include="TSPGenetic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,7 +38,7 @@
     <ClCompile Include="Combination.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneticTSP.cpp">
+    <ClCompile Include="TSPGenetic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

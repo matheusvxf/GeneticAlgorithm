@@ -17,10 +17,12 @@ public:
     ~Salesman();
 
     int SolveDynamicProgramming();
+    float SolveGA();
 
     void set_num_vertices(int num_vertices);
     void set_connection(int src, int dst, int cost);
     inline int num_vertices() { return graph_.num_nodes(); }
     inline int num_cities() { return num_vertices(); }
+    inline int cost(int i, int j) { return graph_.cost(i, j); }
 };
 

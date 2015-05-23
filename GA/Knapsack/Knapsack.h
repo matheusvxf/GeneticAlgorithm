@@ -22,6 +22,9 @@ public:
     Knapsack();
     ~Knapsack();
 
+    int SolveDynamicProgramming();
+    float SolveGA();
+
     inline void set_num_items(int num_items) { items_.resize(num_items); }
     inline void set_capacity(int capacity) { knapsack_capacity_ = capacity; }
     inline void set_item(int item_id, int value, int weight) { items_[item_id].value = value; items_[item_id].weight = weight; }
@@ -29,9 +32,5 @@ public:
     inline int weight(int i) const { return items_[i].weight; }
     inline int value(int i) const { return items_[i].value; }
     inline int capacity() const { return knapsack_capacity_; }
-    int SolveDynamicProgramming();
-    int SolveGA();
-
-
 };
 

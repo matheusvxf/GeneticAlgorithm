@@ -7,16 +7,15 @@
 
 // Private functions
 static void RunKnapsackTest();
-static void RunExactSalesmanTest();
+static void RunSalesmanTest();
 static void RunSimpleGA();
 
 int main()
 {
     using namespace std;
 
-    RunExactSalesmanTest();
+    RunSalesmanTest();
     RunKnapsackTest();
-    //RunSimpleGA();
 }
 
 void RunSimpleGA()
@@ -43,7 +42,7 @@ void RunKnapsackTest()
     fs.close();
 }
 
-void RunExactSalesmanTest()
+void RunSalesmanTest()
 {
     using namespace TestTSP;
     Salesman salesman;
@@ -53,7 +52,8 @@ void RunExactSalesmanTest()
 
     while (ReadNextTestCase(fs, salesman))
     {
-        printf("Solution: %d\n", salesman.SolveDynamicProgramming());
+        printf("Dynamic Programming Solution: %d\n", salesman.SolveDynamicProgramming());
+        printf("Genetic Algorithm Solution: %d\n", salesman.SolveGA());
     }
 
     fs.close();

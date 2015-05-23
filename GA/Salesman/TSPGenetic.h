@@ -12,10 +12,12 @@ class TSPGene : public Gene
     virtual Gene* clone() const;
 
 public:
-    TSPGene();
-    TSPGene(const TSPGene& gene);
+    TSPGene() {}
+    TSPGene(City city) : city_(city) {}
+    TSPGene(const TSPGene& gene) : city_(gene.city_) {}
 
     inline City city() { return city_; }
+    inline City& set_city(const City& city) { return city_ = city; }
 };
 
 class TSPGenome : public Genome
@@ -30,7 +32,7 @@ public:
     Genome& Randomize(GeneticAlgorithm &algorithm_manager);
     Genome *clone() const;
     void swap(uint32_t i, uint32_t j);
-    int set_gene(uint32_t i, int city);
+    Gene& set_gene(uint32_t i, int city);
 };
 
 class TSPSolution : public Solution

@@ -1,4 +1,4 @@
-#include "GeneticKnapsack.h"
+#include "KnapsackGenetic.h"
 
 #include <algorithm>
 #include <random>

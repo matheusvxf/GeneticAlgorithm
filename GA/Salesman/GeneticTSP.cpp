@@ -21,7 +21,7 @@ GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manage
 
 TSPGene::TSPGene() {}
 
-TSPGene::TSPGene(const TSPGene& number) : bit_(number.bit_) {}
+TSPGene::TSPGene(const TSPGene& gene) : city_(gene.city_) {}
 
 Gene* TSPGene::clone() const
 {
@@ -39,9 +39,9 @@ Genome *TSPGenome::clone() const
 
 Genome& TSPGenome::Randomize(GeneticAlgorithm &algorithm_manager)
 {
-    auto *manager = static_cast<TSPGeneticAlgorithm*>(&algorithm_manager);
-    auto &cities_array = manager->cities_array();
-    int num_cities = manager->num_cities();
+    auto &manager = *static_cast<TSPGeneticAlgorithm*>(&algorithm_manager);
+    auto &cities_array = manager.cities_array();
+    int num_cities = manager.num_cities();
     auto seed = static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count());
     
     std::shuffle(ALL(cities_array), std::default_random_engine(seed));
@@ -64,18 +64,37 @@ GeneticAlgorithm::Solution *TSPSolution::clone() const
     return new TSPSolution(*this);
 }
 
-GeneticAlgorithm::Solution& TSPSolution::Mutation(GeneticAlgorithm& manager)
+GeneticAlgorithm::Solution& TSPSolution::Mutation(GeneticAlgorithm& algorithm_manager)
 {
-    
+    auto &manager = *static_cast<TSPGeneticAlgorithm*>(&algorithm_manager);
+    auto &genome = *static_cast<TSPGenome*>(genome_);
+    auto salesman = manager.salesman();
+    int num_cities = salesman.num_cities();
+    auto mutation_rate = manager.mutation_rate();
+
+    for (int i = 0; i < num_cities; ++i)
+    {
+        float p = frand();
+
+        if (p <= mutation_rate)
+        {
+            // Replace the city i with any city keeping a feasible solution once
+            // it will not have cities repetitions
+            int replacement = rand() % num_cities;
+            auto tmp = genome.gene_[i];
+            
+            genome.gene_[i] = genome.gene_[replacement];
+            genome.gene_[replacement] = tmp;
+        }
+    }    
 
     return (*this);
 }
 
 float TSPSolution::CalcFitness(GeneticAlgorithm &algorithm_manager)
 {
-    TSPGeneticAlgorithm *manager = (TSPGeneticAlgorithm*)&algorithm_manager;
-    Salesman &salesman = manager->salesman();
-    std::vector< int > vec;
+    auto &manager = *(TSPGeneticAlgorithm*)&algorithm_manager;
+    auto &salesman = manager.salesman();
     int num_genes = genome_->size();
     int weight = 0;
     fitness_ = 0.0f;
@@ -88,9 +107,7 @@ TSPGeneticAlgorithm::TSPGeneticAlgorithm()
     set_solution_factory_(GenRandomSolution);
 }
 
-TSPGeneticAlgorithm::~TSPGeneticAlgorithm()
-{
-}
+TSPGeneticAlgorithm::~TSPGeneticAlgorithm() {}
 
 Salesman& TSPGeneticAlgorithm::set_salesman(Salesman &salesman)
 {

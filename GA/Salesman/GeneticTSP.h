@@ -5,20 +5,21 @@
 
 class TSPGene : public Gene
 {
-    typedef bool Bit;
+    typedef int City;
 
-    Bit bit_;
+    City city_;
 
     virtual Gene* clone() const;
 
 public:
     TSPGene();
     TSPGene(const TSPGene& gene);
-    inline Bit bit() { return bit_; }
+    inline City city() { return city_; }
 };
 
 class TSPGenome : public Genome
 {
+    friend class TSPSolution;
 public:
     TSPGenome(uint32_t size);
     TSPGenome(const TSPGenome& genome);
@@ -26,7 +27,8 @@ public:
     Genome& Randomize(GeneticAlgorithm &algorithm_manager);
     Gene *RandomGeneFactory() { return new TSPGene(); };
     Genome *clone() const;
-    virtual int set_gene(uint32_t i, int city);
+    void swap(uint32_t i, uint32_t j);
+    int set_gene(uint32_t i, int city);
 };
 
 class TSPSolution : public GeneticAlgorithm::Solution

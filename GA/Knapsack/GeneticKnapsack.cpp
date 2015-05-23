@@ -6,9 +6,9 @@
 
 #include "Common.h"
 
-static GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
+static Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
 
-GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager)
+Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager)
 {
     auto new_solution = new KnapsackSolution();
     auto &manager = *static_cast<KnapsackGeneticAlgorithm*>(&algorithm_manager);
@@ -59,7 +59,7 @@ KnapsackSolution::KnapsackSolution()
 
 KnapsackSolution::KnapsackSolution(const KnapsackSolution& solution) : IHasInvidualMutation(solution) {}
 
-GeneticAlgorithm::Solution *KnapsackSolution::clone() const
+Solution *KnapsackSolution::clone() const
 {
     return new KnapsackSolution(*this);
 }

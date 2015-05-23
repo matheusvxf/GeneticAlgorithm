@@ -57,6 +57,6 @@ int Knapsack::SolveGA()
     GA.set_knapsack(*this);
 
 
-    GeneticAlgorithm::Solution* solution = GA.Run();
+    Solution* solution = GA.Run();
     return 2;
 }

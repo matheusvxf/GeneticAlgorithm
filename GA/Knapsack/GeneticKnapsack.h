@@ -31,7 +31,7 @@ public:
     Genome *clone() const;
 };
 
-class KnapsackSolution : public GeneticAlgorithm::IHasInvidualMutation
+class KnapsackSolution : public IHasInvidualMutation
 {
 public:
     KnapsackSolution();

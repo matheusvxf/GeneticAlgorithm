@@ -40,7 +40,7 @@ int GeneticAlgorithm::set_population_size(int population_size)
     return population_size_ = population_size;
 }
 
-GeneticAlgorithm::Solution* GeneticAlgorithm::Run()
+Solution* GeneticAlgorithm::Run()
 {
     // Initialize random seed
     srand((uint32_t)time(NULL));
@@ -116,7 +116,6 @@ GeneticAlgorithm::Selection::Selection(GeneticAlgorithm *owner) : owner_(owner) 
 void GeneticAlgorithm::Tournament::Select(SolutionSet &population)
 {
     uint32_t population_size = owner_->population_size();
-    Rate mutation_rate = owner_->mutation_rate();
     Rate crossover_rate = owner_->crossover_rate();
     
     while (population.size() < population_size)

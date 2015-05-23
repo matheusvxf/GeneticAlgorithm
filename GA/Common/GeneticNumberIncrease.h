@@ -29,7 +29,7 @@ public:
     Genome *clone() const;
 };
 
-class NumberSolution : public GeneticAlgorithm::IHasInvidualMutation
+class NumberSolution : public IHasInvidualMutation
 {
 public:
     NumberSolution();

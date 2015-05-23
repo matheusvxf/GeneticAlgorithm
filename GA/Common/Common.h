@@ -18,6 +18,7 @@ const uint32_t kGenomeSize = 64;
 #define DEBUG false
 #define INF (1 << 30)
 #define ALL(Q) Q.begin(), Q.end()
+#define FIND(Q, q) (Q.find(q) != Q.end())
 #define foreach(Q, it) for(auto it = Q.begin(); it != Q.end(); ++it)
 
 const char salesman_test_file[] = "test_tsp.txt";

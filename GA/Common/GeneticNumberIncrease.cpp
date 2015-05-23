@@ -1,8 +1,8 @@
 #include "GeneticNumberIncrease.h"
 
-static GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
+static Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
 
-GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager)
+Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager)
 {
     auto *new_solution = new NumberSolution();
 
@@ -49,7 +49,7 @@ NumberSolution::NumberSolution() {
 
 NumberSolution::NumberSolution(const NumberSolution& solution) : IHasInvidualMutation(solution) {}
 
-GeneticAlgorithm::Solution *NumberSolution::clone() const
+Solution *NumberSolution::clone() const
 {
     return new NumberSolution(*this);
 }

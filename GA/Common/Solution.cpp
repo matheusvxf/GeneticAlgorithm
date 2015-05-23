@@ -1,24 +1,25 @@
-#include "GeneticAlgorithm.h"
+#include "Solution.h"
 #include "Common.h"
+#include "GeneticAlgorithm.h"
 
-GeneticAlgorithm::Solution::Solution() : fitness_(0.0f) {}
+Solution::Solution() : fitness_(0.0f) {}
 
-GeneticAlgorithm::Solution::Solution(const Solution& solution) : fitness_(solution.fitness_)
+Solution::Solution(const Solution& solution) : fitness_(solution.fitness_)
 {
     genome_ = solution.genome_->clone();
 }
 
-GeneticAlgorithm::Solution::~Solution()
+Solution::~Solution()
 {
     delete genome_;
 }
 
-bool GeneticAlgorithm::Solution::compare(Solution *lhs, Solution *rhs)
+bool Solution::compare(Solution *lhs, Solution *rhs)
 {
     return lhs->fitness() > rhs->fitness();
 }
 
-GeneticAlgorithm::Solution** GeneticAlgorithm::Solution::Crossover(const Solution* s) const
+Solution** Solution::Crossover(const Solution* s) const
 {
     Solution ** result = new Solution*[2];
     Solution *child_1 = this->clone();
@@ -46,7 +47,7 @@ GeneticAlgorithm::Solution** GeneticAlgorithm::Solution::Crossover(const Solutio
     return result;
 }
 
-GeneticAlgorithm::Solution& GeneticAlgorithm::IHasInvidualMutation::Mutation(GeneticAlgorithm& manager)
+Solution& IHasInvidualMutation::Mutation(GeneticAlgorithm& manager)
 {
     auto genome = static_cast<IGenomeGeneIndependent*>(genome_);
     GeneticAlgorithm::Rate mutation_rate = manager.mutation_rate();

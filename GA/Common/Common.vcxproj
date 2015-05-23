@@ -71,6 +71,7 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="GeneticNumberIncrease.h" />
     <ClInclude Include="Genome.h" />
+    <ClInclude Include="Solution.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneticAlgorithm.cpp" />

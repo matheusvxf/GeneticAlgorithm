@@ -3,12 +3,13 @@
 #include <algorithm>
 #include <random>
 #include <chrono>       // std::chrono::system_clock
+#include <unordered_set>
 
 #include "Common.h"
 
-static GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
+static Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
 
-GeneticAlgorithm::Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager)
+Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager)
 {
     auto new_solution = new TSPSolution();
     auto manager = static_cast<const TSPGeneticAlgorithm*>(&algorithm_manager);
@@ -59,12 +60,12 @@ TSPSolution::TSPSolution()
 
 TSPSolution::TSPSolution(const TSPSolution& solution) : Solution(solution) {}
 
-GeneticAlgorithm::Solution *TSPSolution::clone() const
+Solution *TSPSolution::clone() const
 {
     return new TSPSolution(*this);
 }
 
-GeneticAlgorithm::Solution& TSPSolution::Mutation(GeneticAlgorithm& algorithm_manager)
+Solution& TSPSolution::Mutation(GeneticAlgorithm& algorithm_manager)
 {
     auto &manager = *static_cast<TSPGeneticAlgorithm*>(&algorithm_manager);
     auto &genome = *static_cast<TSPGenome*>(genome_);
@@ -100,6 +101,64 @@ float TSPSolution::CalcFitness(GeneticAlgorithm &algorithm_manager)
     fitness_ = 0.0f;
 
     return fitness_;
+}
+
+Solution** TSPSolution::Crossover(const Solution* a) const
+{
+    TSPSolution** child = new TSPSolution*[2];
+    TSPGenome &genome_a = *static_cast<TSPGenome*>(&genome());
+    TSPGenome &genome_b = *static_cast<TSPGenome*>(&a->genome());
+    uint32_t gnm_size = genome_->size();
+    uint32_t cross_start, cross_end, tmp_1, tmp_2;
+    uint32_t i = 0;
+    std::unordered_set< int > S[2];
+
+    child[0] = static_cast<TSPSolution*>(this->clone());
+    child[1] = static_cast<TSPSolution*>(this->clone());
+    tmp_1 = rand() % gnm_size;
+    tmp_2 = rand() % gnm_size;
+    cross_start = std::min(tmp_1, tmp_2);
+    cross_end = std::max(tmp_1, tmp_2);
+
+    i = cross_start;
+    while (i < cross_end)
+    {
+        TSPGene &gene_1 = *static_cast<TSPGene*>(genome_a.gene_[i]);
+        TSPGene &gene_2 = *static_cast<TSPGene*>(genome_b.gene_[i]);
+
+        child[1]->genome().set_gene(i, gene_2);
+        S[0].insert(gene_1.city);
+        S[1].insert(gene_2.city);
+        i++;
+    }
+
+    int upper_bound = cross_start;
+    for (int i : { 0, static_cast<int>(cross_end) })
+    {
+        while (i < upper_bound)
+        {
+            TSPGene &gene_1 = *static_cast<TSPGene*>(genome_a.gene_[i]);
+            TSPGene &gene_2 = *static_cast<TSPGene*>(genome_b.gene_[i]);
+
+            if (!FIND(S[0], gene_1.city))
+            {
+                S[0].insert(gene_1.city);
+                child[0]->genome().set_gene(i, gene_1);
+            }
+
+            if (!FIND(S[1], gene_2.city))
+            {
+                S[1].insert(gene_2.city);
+                child[1]->genome().set_gene(i, gene_2);
+            }
+
+            i++;
+        }
+
+        upper_bound = gnm_size;
+    }
+
+    return (Solution**)child;
 }
 
 TSPGeneticAlgorithm::TSPGeneticAlgorithm()

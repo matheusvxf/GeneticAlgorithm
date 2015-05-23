@@ -23,7 +23,7 @@ void RunSimpleGA()
 {
     GeneticNumberIncrease GA;
     
-    GeneticAlgorithm::Solution* solution = GA.Run();
+    Solution* solution = GA.Run();
 }
 
 void RunKnapsackTest()

@@ -6,46 +6,14 @@
 
 #include "Common.h"
 #include "Genome.h"
+#include "Solution.h"
 
 class GeneticAlgorithm
 {
 public:
-    class Solution;
-
     typedef float Rate;
     typedef std::multiset< Solution*, bool(*)(Solution*, Solution*)> SolutionSet;
     typedef Solution*(*SolutionFactory)(GeneticAlgorithm &algorithm_manager);
-
-    class Solution
-    {
-    protected:
-        Genome *genome_;
-        Fitness fitness_;
-    public:
-        Solution();
-        Solution(const Solution& genome);
-        virtual ~Solution();
-
-        static bool compare(Solution *a, Solution *b);
-        static Solution* GenRandomSolution();
-
-        Solution** Crossover(const Solution *s) const;
-
-        inline Genome& genome() const { return *genome_; }
-        inline Fitness fitness() { return fitness_; }
-
-        virtual Solution& Mutation(GeneticAlgorithm &manager) = 0;
-        virtual Solution* clone() const = 0;
-        virtual float CalcFitness(GeneticAlgorithm &algorithm_manager) = 0;
-    };
-
-    class IHasInvidualMutation : public Solution
-    {
-    public:
-        IHasInvidualMutation() {}
-        IHasInvidualMutation(const IHasInvidualMutation& solution) : Solution(solution) {}
-        virtual Solution& Mutation(GeneticAlgorithm &manager);
-    };
 
 private:
     typedef uint64_t SelectionMask;

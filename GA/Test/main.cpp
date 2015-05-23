@@ -33,11 +33,13 @@ void RunKnapsackTest()
 
     fs.open(knapsack_test_file);
     
+    printf("Knapsack Problem\n");
     while (ReadNextTestCase(fs, knapsack))
     {
         printf("Dynamic Programming Solution: %d\n", knapsack.SolveDynamicProgramming());
-        printf("Genetic Algorithm Solution: %f\n", knapsack.SolveGA());
+        printf("Genetic Algorithm Solution: %f\n\n", knapsack.SolveGA());
     }
+    printf("\n");
 
     fs.close();
 }
@@ -50,11 +52,13 @@ void RunSalesmanTest()
 
     fs.open(salesman_test_file);
 
+    printf("Travelling Salesman Problem\n");
     while (ReadNextTestCase(fs, salesman))
     {
         printf("Dynamic Programming Solution: %d\n", salesman.SolveDynamicProgramming());
-        printf("Genetic Algorithm Solution: %f\n", salesman.SolveGA());
+        printf("Genetic Algorithm Solution: %f\n\n", salesman.SolveGA());
     }
+    printf("\n");
 
     fs.close();
 }

@@ -8,7 +8,7 @@
 #define EMPTY_SET 0x00
 #define INSERT_TO_SET(S, i) (S = (S | (1 << i)))
 #define BELONGS_TO_SET(S, i) ((S & (1 << i)) == (1 << i))
-#define REMOVE_FROM_SET(S, i) (S = (S ^ (1 << i)))
+#define REMOVE_FROM_SET(S, i) (S ^ (1 << i))
 
 Salesman::Salesman()
 {
@@ -42,7 +42,8 @@ int Salesman::DynamicProgrammingRecursion(int i, int S)
 
         if (BELONGS_TO_SET(S, j) && cost < INF)
         {
-            minimum = std::min(minimum, cost + DynamicProgrammingRecursion(j, REMOVE_FROM_SET(S, j)));
+            int Q = REMOVE_FROM_SET(S, j);
+            minimum = std::min(minimum, cost + DynamicProgrammingRecursion(j, Q));
         }
     }
 

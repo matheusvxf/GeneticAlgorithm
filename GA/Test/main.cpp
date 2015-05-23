@@ -36,7 +36,7 @@ void RunKnapsackTest()
     while (ReadNextTestCase(fs, knapsack))
     {
         printf("Dynamic Programming Solution: %d\n", knapsack.SolveDynamicProgramming());
-        printf("Genetic Algorithm Solution: %d\n", knapsack.SolveGA());
+        printf("Genetic Algorithm Solution: %f\n", knapsack.SolveGA());
     }
 
     fs.close();
@@ -53,7 +53,7 @@ void RunSalesmanTest()
     while (ReadNextTestCase(fs, salesman))
     {
         printf("Dynamic Programming Solution: %d\n", salesman.SolveDynamicProgramming());
-        printf("Genetic Algorithm Solution: %d\n", salesman.SolveGA());
+        printf("Genetic Algorithm Solution: %f\n", salesman.SolveGA());
     }
 
     fs.close();

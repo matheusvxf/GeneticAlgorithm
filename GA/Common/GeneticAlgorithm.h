@@ -12,7 +12,8 @@ class GeneticAlgorithm
 {
 public:
     typedef float Rate;
-    typedef std::multiset< Solution*, bool(*)(Solution*, Solution*)> SolutionSet;
+    typedef bool(*SolutionComparator)(Solution*, Solution*);
+    typedef std::multiset< Solution*, SolutionComparator> SolutionSet;
     typedef Solution*(*SolutionFactory)(GeneticAlgorithm &algorithm_manager);
 
 private:
@@ -42,7 +43,7 @@ private:
         virtual void Select(SolutionSet &population) = 0;
     };
 
-private:
+protected:
     Rate crossover_rate_;
     Rate mutation_rate_;
     uint32_t elitism_size_;
@@ -61,9 +62,11 @@ private:
     virtual bool Stop(); // Test if should stop. It can delegate task to specific problems
 public:
     GeneticAlgorithm();
+    GeneticAlgorithm(SolutionComparator compare);
     virtual ~GeneticAlgorithm();
 
     Solution* Run();
+    virtual SolutionComparator Compare() const;
 
     int set_population_size(int population_size);
 

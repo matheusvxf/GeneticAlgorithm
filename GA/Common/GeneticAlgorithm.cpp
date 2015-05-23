@@ -11,17 +11,20 @@ const uint32_t kElitismSize = 2;
 const uint32_t kNumGenerations = 100;
 const uint32_t kPopulationSize = 100;
 
-GeneticAlgorithm::GeneticAlgorithm() :
+GeneticAlgorithm::GeneticAlgorithm() : GeneticAlgorithm(Compare()) {}
+
+GeneticAlgorithm::GeneticAlgorithm(SolutionComparator comparator) : 
     num_generation_(kNumGenerations),
     population_size_(kPopulationSize),
     selection_mask_(TOURNAMENT | ONE_WAY_TOURNAMENT | ELITISM),
-    population_(Solution::compare),
+    population_(comparator),
     elitism_size_(kElitismSize),
     mutation_rate_(kMutationRate),
     crossover_rate_(kCrossoverRate),
     solution_factory_(nullptr),
     selection_(new Tournament(this))
 {
+
 }
 
 
@@ -38,6 +41,11 @@ int GeneticAlgorithm::set_population_size(int population_size)
         delete *entity;
 
     return population_size_ = population_size;
+}
+
+GeneticAlgorithm::SolutionComparator GeneticAlgorithm::Compare() const
+{
+    return Solution::compare;
 }
 
 Solution* GeneticAlgorithm::Run()
@@ -74,7 +82,7 @@ void GeneticAlgorithm::GenPopulation()
 
 void GeneticAlgorithm::Selection()
 {
-    SolutionSet new_population(Solution::compare);
+    SolutionSet new_population(Compare());
 
     if (selection_mask_ & ELITISM)
     {
@@ -158,7 +166,7 @@ void GeneticAlgorithm::Tournament::Select(SolutionSet &population)
 
 GeneticAlgorithm::SolutionSet GeneticAlgorithm::Tournament::SolutionTournament()
 {
-    SolutionSet tournament(Solution::compare);
+    SolutionSet tournament(owner_->Compare());
     int pop_size = owner_->population_size();
     
     while (tournament.size() < tournemnt_size_)

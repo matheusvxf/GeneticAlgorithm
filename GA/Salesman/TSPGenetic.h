@@ -57,6 +57,8 @@ public:
     TSPGeneticAlgorithm();
     virtual ~TSPGeneticAlgorithm();
 
+    SolutionComparator Compare() const;
+
     inline Salesman& salesman() const { return *salesman_; }
     inline std::vector< int >& cities_array() { return cities_array_; }
     inline int num_cities() const { return salesman_->num_cities(); }

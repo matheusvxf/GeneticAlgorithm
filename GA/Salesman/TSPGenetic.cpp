@@ -8,6 +8,7 @@
 #include "Common.h"
 
 static Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
+static bool compare(Solution* a, Solution* b);
 
 Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager)
 {
@@ -16,6 +17,11 @@ Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager)
     new_solution->genome().Randomize(algorithm_manager);
     new_solution->CalcFitness(algorithm_manager);
     return new_solution;
+}
+
+bool compare(Solution* a, Solution *b)
+{
+    return a->fitness() < b->fitness();
 }
 
 Gene* TSPGene::clone() const
@@ -177,12 +183,17 @@ Solution** TSPSolution::Crossover(const Solution* a) const
     return (Solution**)child;
 }
 
-TSPGeneticAlgorithm::TSPGeneticAlgorithm()
+TSPGeneticAlgorithm::TSPGeneticAlgorithm() : GeneticAlgorithm(Compare())
 {
     set_solution_factory_(GenRandomSolution);
 }
 
 TSPGeneticAlgorithm::~TSPGeneticAlgorithm() {}
+
+GeneticAlgorithm::SolutionComparator TSPGeneticAlgorithm::Compare() const
+{
+    return compare;
+}
 
 Salesman& TSPGeneticAlgorithm::set_salesman(Salesman &salesman)
 {

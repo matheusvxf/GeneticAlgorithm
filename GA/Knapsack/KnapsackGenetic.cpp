@@ -67,16 +67,15 @@ Solution *KnapsackSolution::clone() const
 float KnapsackSolution::CalcFitness(GeneticAlgorithm &algorithm_manager)
 {
     auto &manager = *static_cast<KnapsackGeneticAlgorithm*>(&algorithm_manager);
-    const Knapsack &knapsack = manager.knapsack();
+    auto &knapsack = manager.knapsack();
     std::vector< int > vec;
     int num_genes = genome_->size();
     int weight = 0;
     fitness_ = 0.0f;
     
-
     for (int i = 0; i < num_genes; ++i)
     {
-        Bit bit = ((KnapsackGene*)&genome_->gene(i))->bit();
+        Bit &bit = ((KnapsackGene*)&genome_->gene(i))->bit();
         if (bit == true)
         {
             vec.push_back(i); // Store items in the knapsack to remove if weight is exceeded

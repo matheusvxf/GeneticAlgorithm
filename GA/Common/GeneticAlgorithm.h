@@ -14,11 +14,11 @@ public:
     typedef float Rate;
     typedef bool(*SolutionComparator)(Solution*, Solution*);
     typedef std::multiset< Solution*, SolutionComparator> SolutionSet;
+    typedef std::vector< Solution* > SolutionVector;
     typedef Solution*(*SolutionFactory)(GeneticAlgorithm &algorithm_manager);
 
 private:
     typedef uint64_t SelectionMask;
-    typedef std::vector< Solution* > SolutionVector;
     
 
     enum SELECTION_MASK
@@ -43,6 +43,20 @@ private:
         virtual void Select(SolutionSet &population) = 0;
     };
 
+    class Tournament : Selection
+    {
+        friend class GeneticAlgorithm;
+
+        float p_; // Probability of selecting the solution of higher fitness
+        uint32_t tournemnt_size_;
+    public:
+
+        Tournament(GeneticAlgorithm* owner) : Selection(owner), tournemnt_size_(2) {}
+
+        void Select(SolutionSet &population);
+        SolutionSet SolutionTournament();
+    };
+
 protected:
     Rate crossover_rate_;
     Rate mutation_rate_;
@@ -54,7 +68,10 @@ protected:
     SolutionVector population_array_;
     SolutionFactory solution_factory_;
     Selection *selection_;
+    std::string statistic_output_file_;
+    std::string time_output_file_;
 
+private:
     void Loop();
     void GenPopulation();
     void Selection();
@@ -72,23 +89,12 @@ public:
 
     inline SolutionFactory& set_solution_factory_(SolutionFactory factory) { return solution_factory_ = factory; }
     inline int set_num_generation_(int num_generation) { return num_generation_ = num_generation; }
+    inline std::string& set_statistic_output_file(const std::string &file) { return statistic_output_file_ = file; }
+    inline std::string& set_time_output_file(const std::string &file) { return time_output_file_ = file; }
     inline uint32_t population_size() const { return population_size_; }
     inline float mutation_rate() const { return mutation_rate_; }
     inline float crossover_rate() const { return crossover_rate_; }
-
-private:
-    class Tournament : Selection
-    {
-        friend class GeneticAlgorithm;
-
-        float p_; // Probability of selecting the solution of higher fitness
-        uint32_t tournemnt_size_;
-    public:
-
-        Tournament(GeneticAlgorithm* owner) : Selection(owner), tournemnt_size_(2) {}
-
-        void Select(SolutionSet &population);
-        SolutionSet SolutionTournament();
-    };
+    inline std::string& statistic_output_file() { return statistic_output_file_; }
+    inline std::string& time_output_file() { return time_output_file_; }
 };
 

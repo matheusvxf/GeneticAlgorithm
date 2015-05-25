@@ -15,6 +15,7 @@ typedef float Fitness;
 
 const uint32_t kGenomeSize = 64;
 
+#define FLAG_LOG true
 #define DEBUG false
 #define INF (1 << 30)
 #define ALL(Q) Q.begin(), Q.end()
@@ -23,8 +24,11 @@ const uint32_t kGenomeSize = 64;
 
 const char salesman_test_file[] = "test_tsp.txt";
 const char knapsack_test_file[] = "test_knapsack.txt";
+const char kStatisticFile[] = "statistic.txt";
+const char kTimeFile[] = "time.txt";
 
 #define frand() (((float)rand() / (float)RAND_MAX) * 100.0f)
+
 
 extern inline int DivideCeil(int numerator, int denominator)
 {

@@ -48,7 +48,7 @@ Gene& TSPGenome::set_gene(uint32_t i, int city)
 Genome& TSPGenome::Randomize(GeneticAlgorithm &algorithm_manager)
 {
     auto &manager = *static_cast<TSPGeneticAlgorithm*>(&algorithm_manager);
-    auto &cities_array = manager.cities_array();
+    auto cities_array = manager.cities_array();
     auto seed = static_cast<unsigned int>(std::chrono::system_clock::now().time_since_epoch().count());
     int num_cities = manager.num_cities();
 
@@ -79,8 +79,8 @@ Solution& TSPSolution::Mutation(GeneticAlgorithm& algorithm_manager)
     auto &manager = *static_cast<TSPGeneticAlgorithm*>(&algorithm_manager);
     auto &genome = *static_cast<TSPGenome*>(genome_);
     auto salesman = manager.salesman();
-    int num_cities = salesman.num_cities();
     auto mutation_rate = manager.mutation_rate();
+    int num_cities = salesman.num_cities();
 
     for (int i = 0; i < num_cities; ++i)
     {
@@ -103,8 +103,8 @@ Solution& TSPSolution::Mutation(GeneticAlgorithm& algorithm_manager)
 
 float TSPSolution::CalcFitness(GeneticAlgorithm &algorithm_manager)
 {
-    auto &manager = *(TSPGeneticAlgorithm*)&algorithm_manager;
-    auto &salesman = manager.salesman();
+    auto &manager = *static_cast<TSPGeneticAlgorithm*>(&algorithm_manager);
+    auto salesman = manager.salesman();
     int num_genes = genome_->size();
     TSPGene *a, *b;
     int i = 0, first_city;
@@ -180,7 +180,7 @@ Solution** TSPSolution::Crossover(const Solution* a) const
         upper_bound = gnm_size;
     }
 
-    return (Solution**)child;
+    return reinterpret_cast<Solution**>(child);
 }
 
 TSPGeneticAlgorithm::TSPGeneticAlgorithm() : GeneticAlgorithm(Compare())

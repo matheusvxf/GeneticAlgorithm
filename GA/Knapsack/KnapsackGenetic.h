@@ -18,7 +18,7 @@ public:
 
     virtual Gene& Mutate();
 
-    inline Bit bit() { return bit_; }
+    inline Bit& bit() { return bit_; }
 };
 
 class KnapsackGenome : public IGenomeGeneIndependent

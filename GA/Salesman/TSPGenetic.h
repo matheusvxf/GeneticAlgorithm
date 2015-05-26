@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GeneticAlgorithm.h"
+#include "GeneticAlgorithmWrapper.h"
 #include "Salesman.h"
 
 class TSPGene : public Gene
@@ -47,7 +47,7 @@ public:
     Fitness CalcFitness(GeneticAlgorithm &algorithm_manager);
 };
 
-class TSPGeneticAlgorithm : public GeneticAlgorithm
+class TSPGeneticAlgorithm : public GeneticAlgorithmWrapper
 {
 private:
     Salesman *salesman_; // lent

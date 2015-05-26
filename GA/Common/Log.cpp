@@ -3,7 +3,6 @@
 
 Log::Log()
 {
-    std::fstream fs();
 }
 
 Log::~Log()

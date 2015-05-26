@@ -183,7 +183,7 @@ Solution** TSPSolution::Crossover(const Solution* a) const
     return reinterpret_cast<Solution**>(child);
 }
 
-TSPGeneticAlgorithm::TSPGeneticAlgorithm() : GeneticAlgorithm(Compare())
+TSPGeneticAlgorithm::TSPGeneticAlgorithm() : GeneticAlgorithmWrapper(Compare())
 {
     set_solution_factory_(GenRandomSolution);
 }

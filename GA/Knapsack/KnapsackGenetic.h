@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GeneticAlgorithm.h"
+#include "GeneticAlgorithmWrapper.h"
 #include "Knapsack.h"
 
 class KnapsackGene : public IGeneIndependent
@@ -43,7 +43,7 @@ public:
 
 };
 
-class KnapsackGeneticAlgorithm : public GeneticAlgorithm
+class KnapsackGeneticAlgorithm : public GeneticAlgorithmWrapper
 {
 private:
     int capacity_;

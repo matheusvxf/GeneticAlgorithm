@@ -18,7 +18,7 @@ inline static float AverageFitness(const GeneticAlgorithm::SolutionVector& popul
 inline static float VarianceFitness(const GeneticAlgorithm::SolutionVector& population);
 inline static float StandardDeviation(const GeneticAlgorithm::SolutionVector& population);
 inline static float BestFitness(const GeneticAlgorithm::SolutionVector& population);
-inline static float WorstFitness(const GeneticAlgorithm::SolutionVector& population);
+inline static float WorseFitness(const GeneticAlgorithm::SolutionVector& population);
 inline static void LogPopulationFitness(const GeneticAlgorithm::SolutionVector& population);
 
 inline float AverageFitness(const GeneticAlgorithm::SolutionVector& population)
@@ -55,20 +55,21 @@ inline float BestFitness(const GeneticAlgorithm::SolutionVector& population)
     return (*population.begin())->fitness();
 }
 
-inline float WorstFitness(const GeneticAlgorithm::SolutionVector& population)
+inline float WorseFitness(const GeneticAlgorithm::SolutionVector& population)
 {
     return (*(population.end() - 1))->fitness();
 }
 
 inline static void LogPopulationFitness(Log& log, const GeneticAlgorithm::SolutionVector& population)
 {
-    float avr, sdv, best, worst;
+    float avr, sdv, best, worse;
     std::fstream &fs = log.fstream();
     avr = AverageFitness(population);
     best = BestFitness(population);
-    worst = WorstFitness(population);
+    worse = WorseFitness(population);
     sdv = StandardDeviation(population);
-    fs << best << " " << worst << " " << avr << " " << sdv << std::endl;
+    fs << "best worse average standard_deviation" << std::endl;
+    fs << best << " " << worse << " " << avr << " " << sdv << std::endl;
 }
 
 GeneticAlgorithm::GeneticAlgorithm() : GeneticAlgorithm(Compare()) {}
@@ -83,8 +84,7 @@ GeneticAlgorithm::GeneticAlgorithm(SolutionComparator comparator) :
     crossover_rate_(kCrossoverRate),
     solution_factory_(nullptr),
     selection_(new Tournament(this)),
-    statistic_output_file_(kStatisticFile),
-    time_output_file_(kTimeFile)
+    statistic_output_file_(kStatisticFile)
 {
 
 }
@@ -112,14 +112,9 @@ GeneticAlgorithm::SolutionComparator GeneticAlgorithm::Compare() const
 
 Solution* GeneticAlgorithm::Run()
 {
-    Log log; log.open(time_output_file());
     // Initialize random seed
     srand((uint32_t)time(NULL));
-    auto start = std::chrono::system_clock::now();
     Loop();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start);
-    printf("%lld\n", duration.count());
-    log.close();
     return *population_.begin();
 }
 

@@ -69,13 +69,12 @@ protected:
     SolutionFactory solution_factory_;
     Selection *selection_;
     std::string statistic_output_file_;
-    std::string time_output_file_;
 
-private:
-    void Loop();
+protected:
     void GenPopulation();
     void Selection();
     void Elitism(SolutionSet &population);
+    virtual void Loop();
     virtual bool Stop(); // Test if should stop. It can delegate task to specific problems
 public:
     GeneticAlgorithm();
@@ -90,11 +89,9 @@ public:
     inline SolutionFactory& set_solution_factory_(SolutionFactory factory) { return solution_factory_ = factory; }
     inline int set_num_generation_(int num_generation) { return num_generation_ = num_generation; }
     inline std::string& set_statistic_output_file(const std::string &file) { return statistic_output_file_ = file; }
-    inline std::string& set_time_output_file(const std::string &file) { return time_output_file_ = file; }
     inline uint32_t population_size() const { return population_size_; }
     inline float mutation_rate() const { return mutation_rate_; }
     inline float crossover_rate() const { return crossover_rate_; }
     inline std::string& statistic_output_file() { return statistic_output_file_; }
-    inline std::string& time_output_file() { return time_output_file_; }
 };
 

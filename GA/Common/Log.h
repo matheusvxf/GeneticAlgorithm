@@ -10,9 +10,10 @@ public:
     Log();
     ~Log();
 
-    void open(const std::string& file) { fs_.open(file, std::fstream::out); }
-    void close() { fs_.close(); }
-    std::fstream& fstream() { return fs_; }
+    inline void open(const std::string& file) { open(file, std::fstream::out); }
+    inline void open(const std::string& file, int mode) { fs_.open(file, mode); }
+    inline void close() { fs_.close(); }
+    inline std::fstream& fstream() { return fs_; }
     
 };
 

@@ -23,7 +23,7 @@ public:
     ~Knapsack();
 
     int SolveDynamicProgramming();
-    float SolveGA();
+    float SolveGA(int test_num);
 
     inline void set_num_items(int num_items) { items_.resize(num_items); }
     inline void set_capacity(int capacity) { knapsack_capacity_ = capacity; }

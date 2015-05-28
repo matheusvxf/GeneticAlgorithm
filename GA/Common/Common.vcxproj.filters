@@ -21,27 +21,27 @@
     <ClInclude Include="GeneticAlgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneticNumberIncrease.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Genome.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Solution.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Log.h">
+    <ClInclude Include="GeneticAlgorithmWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneticAlgorithmWrapper.h">
+    <ClInclude Include="StatisticSolution.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SampleGeneticAlgorithm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneticAlgorithm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneticNumberIncrease.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Solution.cpp">
@@ -50,10 +50,13 @@
     <ClCompile Include="Genome.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Log.cpp">
+    <ClCompile Include="GeneticAlgorithmWrapper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneticAlgorithmWrapper.cpp">
+    <ClCompile Include="Logger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SampleGeneticAlgorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

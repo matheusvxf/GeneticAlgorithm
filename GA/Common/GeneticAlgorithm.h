@@ -68,12 +68,11 @@ protected:
     SolutionVector population_array_;
     SolutionFactory solution_factory_;
     Selection *selection_;
-    std::string statistic_output_file_;
 
 protected:
-    void GenPopulation();
-    void Selection();
     void Elitism(SolutionSet &population);
+    virtual void Selection();
+    virtual void GenPopulation();
     virtual void Loop();
     virtual bool Stop(); // Test if should stop. It can delegate task to specific problems
 public:
@@ -81,17 +80,15 @@ public:
     GeneticAlgorithm(SolutionComparator compare);
     virtual ~GeneticAlgorithm();
 
-    Solution* Run();
+    virtual Solution& Run();
     virtual SolutionComparator Compare() const;
 
     int set_population_size(int population_size);
 
     inline SolutionFactory& set_solution_factory_(SolutionFactory factory) { return solution_factory_ = factory; }
     inline int set_num_generation_(int num_generation) { return num_generation_ = num_generation; }
-    inline std::string& set_statistic_output_file(const std::string &file) { return statistic_output_file_ = file; }
     inline uint32_t population_size() const { return population_size_; }
     inline float mutation_rate() const { return mutation_rate_; }
     inline float crossover_rate() const { return crossover_rate_; }
-    inline std::string& statistic_output_file() { return statistic_output_file_; }
 };
 

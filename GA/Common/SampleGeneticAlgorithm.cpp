@@ -1,4 +1,4 @@
-#include "GeneticNumberIncrease.h"
+#include "SampleGeneticAlgorithm.h"
 
 static Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
 
@@ -54,12 +54,12 @@ Solution *NumberSolution::clone() const
     return new NumberSolution(*this);
 }
 
-GeneticNumberIncrease::GeneticNumberIncrease()
+SampleGeneticAlgorithm::SampleGeneticAlgorithm()
 {
     set_solution_factory_(GenRandomSolution);
 }
 
-GeneticNumberIncrease::~GeneticNumberIncrease()
+SampleGeneticAlgorithm::~SampleGeneticAlgorithm()
 {
 }
 

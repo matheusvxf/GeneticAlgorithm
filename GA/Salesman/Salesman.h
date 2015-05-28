@@ -17,7 +17,7 @@ public:
     ~Salesman();
 
     int SolveDynamicProgramming();
-    float SolveGA();
+    float SolveGA(int test_num);
 
     void set_num_vertices(int num_vertices);
     void set_connection(int src, int dst, int cost);

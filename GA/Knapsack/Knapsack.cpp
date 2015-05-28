@@ -49,15 +49,15 @@ int Knapsack::SolveDynamicProgramming()
     return m[0][W];
 }
 
-float Knapsack::SolveGA()
+float Knapsack::SolveGA(int test_num)
 {
     KnapsackGeneticAlgorithm GA;
-    Solution* solution;
+    std::string str_builder = "statistic-knapsack-test-" + int2str(test_num) + ".txt";
 
     GA.set_capacity(knapsack_capacity_);
     GA.set_knapsack(*this);
+    GA.set_generation_statistic_output_file(str_builder);
 
-
-    solution = GA.Run();
-    return solution->fitness();
+    auto &solution = GA.Run();
+    return solution.fitness();
 }

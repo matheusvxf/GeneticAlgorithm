@@ -106,6 +106,9 @@ float KnapsackSolution::CalcFitness(GeneticAlgorithm &algorithm_manager)
 KnapsackGeneticAlgorithm::KnapsackGeneticAlgorithm()
 {
     set_solution_factory_(GenRandomSolution);
+    set_time_output_file(kKnapsackTimeFile);
+    set_statistic_output_file(kKnapsackStatistFile);
+    GeneticAlgorithmWrapper::prepare();
 }
 
 KnapsackGeneticAlgorithm::~KnapsackGeneticAlgorithm()

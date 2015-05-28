@@ -70,17 +70,18 @@
     <ClInclude Include="GeneticAlgorithm.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="GeneticAlgorithmWrapper.h" />
-    <ClInclude Include="GeneticNumberIncrease.h" />
+    <ClInclude Include="SampleGeneticAlgorithm.h" />
     <ClInclude Include="Genome.h" />
-    <ClInclude Include="Log.h" />
+    <ClInclude Include="Logger.h" />
     <ClInclude Include="Solution.h" />
+    <ClInclude Include="StatisticSolution.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GeneticAlgorithm.cpp" />
     <ClCompile Include="GeneticAlgorithmWrapper.cpp" />
-    <ClCompile Include="GeneticNumberIncrease.cpp" />
+    <ClCompile Include="SampleGeneticAlgorithm.cpp" />
     <ClCompile Include="Genome.cpp" />
-    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Solution.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -5,72 +5,11 @@
 #include <chrono>
 
 #include "Common.h"
-#include "Log.h"
+#include "Logger.h"
+#include "StatisticSolution.h"
 
-const GeneticAlgorithm::Rate kCrossoverRate = 70.0f;
-const GeneticAlgorithm::Rate kMutationRate = 0.1f;
-const uint32_t kElitismSize = 2;
-const uint32_t kNumGenerations = 100;
-const uint32_t kPopulationSize = 1000;
-
-// Private functions
-inline static float AverageFitness(const GeneticAlgorithm::SolutionVector& population);
-inline static float VarianceFitness(const GeneticAlgorithm::SolutionVector& population);
-inline static float StandardDeviation(const GeneticAlgorithm::SolutionVector& population);
-inline static float BestFitness(const GeneticAlgorithm::SolutionVector& population);
-inline static float WorseFitness(const GeneticAlgorithm::SolutionVector& population);
-inline static void LogPopulationFitness(const GeneticAlgorithm::SolutionVector& population);
-
-inline float AverageFitness(const GeneticAlgorithm::SolutionVector& population)
-{
-    float sum = 0.0f;
-
-    foreach(population, it)
-    {
-        sum += (*it)->fitness();
-    }
-    return sum / static_cast<float>(population.size());
-}
-
-inline float VarianceFitness(const GeneticAlgorithm::SolutionVector& population)
-{
-    float avr = AverageFitness(population);
-    float sum = 0.0f;
-
-    foreach(population, it)
-    {
-        float diff = (*it)->fitness() - avr;
-        sum += diff * diff;
-    }
-    return sum / static_cast<float>(population.size());
-}
-
-inline float StandardDeviation(const GeneticAlgorithm::SolutionVector& population)
-{
-    return sqrt(VarianceFitness(population));
-}
-
-inline float BestFitness(const GeneticAlgorithm::SolutionVector& population)
-{
-    return (*population.begin())->fitness();
-}
-
-inline float WorseFitness(const GeneticAlgorithm::SolutionVector& population)
-{
-    return (*(population.end() - 1))->fitness();
-}
-
-inline static void LogPopulationFitness(Log& log, const GeneticAlgorithm::SolutionVector& population)
-{
-    float avr, sdv, best, worse;
-    std::fstream &fs = log.fstream();
-    avr = AverageFitness(population);
-    best = BestFitness(population);
-    worse = WorseFitness(population);
-    sdv = StandardDeviation(population);
-    fs << "best worse average standard_deviation" << std::endl;
-    fs << best << " " << worse << " " << avr << " " << sdv << std::endl;
-}
+static const GeneticAlgorithm::Rate kCrossoverRate = 70.0f;
+static const GeneticAlgorithm::Rate kMutationRate = 0.1f;
 
 GeneticAlgorithm::GeneticAlgorithm() : GeneticAlgorithm(Compare()) {}
 
@@ -83,12 +22,10 @@ GeneticAlgorithm::GeneticAlgorithm(SolutionComparator comparator) :
     mutation_rate_(kMutationRate),
     crossover_rate_(kCrossoverRate),
     solution_factory_(nullptr),
-    selection_(new Tournament(this)),
-    statistic_output_file_(kStatisticFile)
+    selection_(new Tournament(this))
 {
 
 }
-
 
 GeneticAlgorithm::~GeneticAlgorithm()
 {
@@ -110,30 +47,24 @@ GeneticAlgorithm::SolutionComparator GeneticAlgorithm::Compare() const
     return Solution::compare;
 }
 
-Solution* GeneticAlgorithm::Run()
+Solution& GeneticAlgorithm::Run()
 {
     // Initialize random seed
     srand((uint32_t)time(NULL));
     Loop();
-    return *population_.begin();
+    return **population_.begin();
 }
 
 void GeneticAlgorithm::Loop()
 {
-    Log log; log.open(statistic_output_file());
     uint32_t actual_generation = 0;
     GenPopulation();
-
-    LogPopulationFitness(log, population_array_);
 
     while (actual_generation < num_generation_ && !Stop())
     {
         Selection();
         actual_generation++;
-        LogPopulationFitness(log, population_array_);
     }
-
-    log.close();
 }
 
 void GeneticAlgorithm::GenPopulation()

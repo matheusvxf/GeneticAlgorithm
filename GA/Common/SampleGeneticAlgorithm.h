@@ -41,10 +41,10 @@ public:
     
 };
 
-class GeneticNumberIncrease : public GeneticAlgorithm
+class SampleGeneticAlgorithm : public GeneticAlgorithm
 {
 public:
-    GeneticNumberIncrease();
-    virtual ~GeneticNumberIncrease();
+    SampleGeneticAlgorithm();
+    virtual ~SampleGeneticAlgorithm();
 };
 

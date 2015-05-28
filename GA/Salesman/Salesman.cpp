@@ -72,14 +72,15 @@ int Salesman::SolveDynamicProgramming()
     return DynamicProgrammingRecursion(0, S);
 }
 
-float Salesman::SolveGA()
+float Salesman::SolveGA(int test_num)
 {
     TSPGeneticAlgorithm genetic;
-    Solution *salesman;
-
+    std::string str_builder = "statistic-salesman-test-" + int2str(test_num) + ".txt";
+    
     genetic.set_salesman(*this);
+    genetic.set_generation_statistic_output_file(str_builder);
 
-    salesman =  genetic.Run();
-    return salesman->fitness();
+    auto &salesman = genetic.Run();
+    return salesman.fitness();
 }
 

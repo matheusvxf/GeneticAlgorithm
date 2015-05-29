@@ -1,10 +1,12 @@
 #include "Knapsack.h"
 
 #include <vector>
+#include <set>
 #include <algorithm>
 
 #include "KnapsackGenetic.h"
 #include "Logger.h"
+#include "Common.h"
 
 #define all(Q) Q.begin(), Q.end()
 
@@ -17,7 +19,31 @@ Knapsack::~Knapsack()
 {
 }
 
-int Knapsack::SolveDynamicProgramming()
+std::set<int> Knapsack::FindKnapsack(const std::vector< std::vector<int> > &m, int item, int weight)
+{
+    if (item == m.size() - 1)
+    {
+        if (items_[item].weight() <= weight)
+            return{ item };
+        else
+            return{};
+    }
+    else
+    {
+        if (m[item][weight] == m[item + 1][weight])
+        {
+            return FindKnapsack(m, item + 1, weight);
+        }
+        else
+        {
+            std::set< int > &res = FindKnapsack(m, item + 1, weight - items_[item].weight());
+            res.insert(item);
+            return res;
+        }
+    }
+}
+
+std::pair< int, std::set< int > > Knapsack::SolveDynamicProgramming()
 {
     using namespace std;
 
@@ -33,21 +59,37 @@ int Knapsack::SolveDynamicProgramming()
     }
 
     for (int w = 0; w <= W; ++w)
-    if (w >= items_[N - 1].weight)
-        m[N - 1][w] = items_[N - 1].value;
+    if (items_[N - 1].weight() <= w)
+        m[N - 1][w] = items_[N - 1].value();
 
     for (int i = N - 2; i >= 0; --i)
     {
         for (int w = 0; w <= W; ++w)
         {
-            if (w >= items_[i].weight)
-                m[i][w] = max(items_[i].value + m[i + 1][w - items_[i].weight], m[i + 1][w]);
+            if (items_[i].weight() <= w)
+                m[i][w] = max(items_[i].value() + m[i + 1][w - items_[i].weight()], m[i + 1][w]);
             else
                 m[i][w] = m[i + 1][w];
         }
     }
 
-    return m[0][W];
+    return std::pair< int, std::set< int > >(std::make_pair(m[0][W], FindKnapsack(m, 0, W)));
+}
+
+void Knapsack::SolveExactSolution()
+{
+    auto solution = SolveDynamicProgramming();
+
+    printf("Dynamic Programming Solution: %d\n", solution.first);
+
+#if(DEBUG == TRUE)
+    printf("Items:\n");
+    for (int item : solution.second)
+    {
+        printf("%d value: %d weight: %d\n", item, items_[item].value(), items_[item].weight());
+    }
+    printf("\n");
+#endif
 }
 
 GeneticAlgorithm::SolutionVector& Knapsack::SolveGeneticAlgorithm()

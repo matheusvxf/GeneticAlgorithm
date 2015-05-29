@@ -18,7 +18,9 @@ typedef float Fitness;
 const uint32_t kGenomeSize = 64;
 
 #define FLAG_Logger true
-#define DEBUG false
+#define TRUE 1
+#define FALSE 0
+#define DEBUG FALSE
 #define INF (1 << 30)
 #define ALL(Q) Q.begin(), Q.end()
 #define FIND(Q, q) (Q.find(q) != Q.end())
@@ -35,7 +37,7 @@ const std::string kSalesmanStatistFile = kLogDir + "statistic-salesman.txt";
 const std::string kSalesmanTimeFile = "time-salesman.txt";
 
 const uint32_t kElitismSize = 2;
-const uint32_t kNumGenerations = 200;
+const uint32_t kNumGenerations = 100;
 const uint32_t kPopulationSize = 100;
 
 #define frand() (((float)rand() / (float)RAND_MAX) * 100.0f)

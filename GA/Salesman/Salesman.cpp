@@ -73,6 +73,11 @@ int Salesman::SolveDynamicProgramming()
     return DynamicProgrammingRecursion(0, S);
 }
 
+void Salesman::SolveExactSolution()
+{
+    printf("Dynamic Programming Solution: %f\n", SolveDynamicProgramming());
+}
+
 GeneticAlgorithm::SolutionVector& Salesman::SolveGeneticAlgorithm()
 {
     ga_manager_.set_salesman(*this);
@@ -123,7 +128,7 @@ std::string Salesman::ProblemGenerator(int num_cities)
             int delta_x = Q[i].first - Q[j].first;
             int delta_y = Q[i].second - Q[j].second;
 
-            str += int2str(i) + " " + int2str(j) + " " + int2str(sqrt(delta_x * delta_x + delta_y * delta_y)) + "\n";
+            str += int2str(i) + " " + int2str(j) + " " + int2str((int)sqrt(delta_x * delta_x + delta_y * delta_y)) + "\n";
             counter++;
         }
     }

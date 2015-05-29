@@ -22,6 +22,7 @@ public:
     ~Salesman();
 
     int SolveDynamicProgramming();
+    void SolveExactSolution();
     GeneticAlgorithm::SolutionVector& SolveGeneticAlgorithm();
     bool ReadNextTestCase(std::fstream &fs);
     std::string problem_size() const { return int2str(graph_.num_nodes());  }
@@ -37,6 +38,7 @@ public:
     inline int num_vertices() { return graph_.num_nodes(); }
     inline int num_cities() { return num_vertices(); }
     inline int cost(int i, int j) { return graph_.cost(i, j); }
+    inline GeneticAlgorithm& ga_manager() { return ga_manager_; }
 
 
     static std::string ProblemGenerator(int num_cities);

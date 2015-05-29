@@ -76,7 +76,7 @@ float KnapsackSolution::CalcFitness(GeneticAlgorithm &algorithm_manager)
     
     for (int i = 0; i < num_genes; ++i)
     {
-        Bit &bit = ((KnapsackGene*)&genome_->gene(i))->bit();
+        Bit &bit = static_cast<KnapsackGene*>(&genome_->gene(i))->bit();
         if (bit == true)
         {
             vec.push_back(i); // Store items in the knapsack to remove if weight is exceeded
@@ -104,11 +104,30 @@ float KnapsackSolution::CalcFitness(GeneticAlgorithm &algorithm_manager)
     return fitness_;
 }
 
+void KnapsackSolution::print(GeneticAlgorithm &algorithm_manager) const
+{
+    auto &manager = *static_cast<KnapsackGeneticAlgorithm*>(&algorithm_manager);
+    auto &knapsack = manager.knapsack();
+    auto &genome = *static_cast<KnapsackGenome*>(genome_);
+
+    for (int i = 0, size = knapsack.num_items(); i < size; ++i)
+    {
+        auto &gene = *static_cast<KnapsackGene*>(&genome.gene(i));
+
+        if (gene.bit() == true)
+        {
+            printf("%d value: %d weight: %d\n", i, knapsack.value(i), knapsack.weight(i));
+        }
+    }
+    printf("%\n");
+}
+
 KnapsackGeneticAlgorithm::KnapsackGeneticAlgorithm()
 {
     set_solution_factory_(GenRandomSolution);
     set_time_output_file(kKnapsackTimeFile);
     set_statistic_output_file(kKnapsackStatistFile);
+    set_mutation_rate(0.1f);
     GeneticAlgorithmWrapper::prepare();
 }
 

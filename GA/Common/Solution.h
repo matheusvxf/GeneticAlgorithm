@@ -21,7 +21,8 @@ public:
     static Solution* GenRandomSolution();
 
     virtual Solution** Crossover(const Solution *s) const;
-    
+    virtual void print(GeneticAlgorithm& manager) const {};
+
     virtual Solution& Mutation(GeneticAlgorithm &manager) = 0;
     virtual Solution* clone() const = 0;
     virtual float CalcFitness(GeneticAlgorithm &algorithm_manager) = 0;

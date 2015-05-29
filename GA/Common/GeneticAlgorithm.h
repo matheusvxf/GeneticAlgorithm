@@ -89,6 +89,8 @@ public:
     inline int set_num_generation_(int num_generation) { return num_generation_ = num_generation; }
     inline uint32_t population_size() const { return population_size_; }
     inline float mutation_rate() const { return mutation_rate_; }
+    inline float set_mutation_rate(float mutation_rate) { return mutation_rate_ = mutation_rate; }
     inline float crossover_rate() const { return crossover_rate_; }
+    inline float set_crossover_rate(float crossover_rate) { return crossover_rate_ = crossover_rate; }
 };
 

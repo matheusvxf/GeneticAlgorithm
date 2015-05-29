@@ -41,6 +41,7 @@ public:
     virtual Solution* clone() const;
 
     virtual Fitness CalcFitness(GeneticAlgorithm &algorithm_manager);
+    void KnapsackSolution::print(GeneticAlgorithm &algorithm_manager) const;
 
 };
 

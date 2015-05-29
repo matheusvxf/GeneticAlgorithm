@@ -10,8 +10,9 @@ class SolverInterface
 protected:
     std::string time_file_;
 public:
-    virtual int SolveDynamicProgramming() = 0;
+    virtual void SolveExactSolution() = 0;
     virtual GeneticAlgorithm::SolutionVector& SolveGeneticAlgorithm() = 0;
+    virtual GeneticAlgorithm& ga_manager() = 0;
     virtual std::string statistic_file() const = 0;
     virtual std::string default_time_file() const = 0;
     virtual std::string test_file() const = 0;
@@ -29,7 +30,7 @@ class TestWrapper
 protected:
     SolverInterface *solver_;
 
-    int SolveDynamicProgramming();
+    void SolveDynamicProgramming();
     float SolveGeneticAlgorithm();
 public:
     TestWrapper(SolverInterface *solver) : solver_(solver) {}

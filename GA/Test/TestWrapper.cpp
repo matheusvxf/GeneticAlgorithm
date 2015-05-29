@@ -41,7 +41,7 @@ void TestWrapper::Solve()
         str_builder = kLogDir + "dynamic-" + solver_->default_time_file();
         solver_->set_time_file(str_builder);
 
-        printf("Dynamic Programming Solution: %d\n", SolveDynamicProgramming());
+        SolveDynamicProgramming();
 
         str_builder = kLogDir + "genetic-" + solver_->default_time_file();
         solver_->set_time_file(str_builder);
@@ -54,11 +54,11 @@ void TestWrapper::Solve()
     fs.close();
 }
 
-int TestWrapper::SolveDynamicProgramming()
+void TestWrapper::SolveDynamicProgramming()
 {
     Logger logger;
     auto start = std::chrono::system_clock::now();
-    int result = solver_->SolveDynamicProgramming();
+    solver_->SolveExactSolution();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - start);
     
     if (!solver_->time_file().empty())
@@ -67,8 +67,6 @@ int TestWrapper::SolveDynamicProgramming()
         logger.fstream() << solver_->problem_size() << " " << duration.count() << std::endl;
         logger.close();
     }
-
-    return result;
 }
 
 float TestWrapper::SolveGeneticAlgorithm()
@@ -76,8 +74,11 @@ float TestWrapper::SolveGeneticAlgorithm()
     Logger logger;
     auto start = std::chrono::system_clock::now();
     auto &solution = **solver_->SolveGeneticAlgorithm().begin();
-    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start);
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - start);
 
+#if(DEBUG == TRUE)
+    solution.print(solver_->ga_manager());
+#endif
     if (!solver_->time_file().empty())
     {
         logger.open(solver_->time_file(), std::fstream::app);

@@ -48,5 +48,8 @@ public:
     inline int weight(int i) const { return items_[i].weight; }
     inline int value(int i) const { return items_[i].value; }
     inline int capacity() const { return knapsack_capacity_; }
+
+
+    static std::string ProblemGenerator(int num_items, int weight);
 };
 

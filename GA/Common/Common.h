@@ -27,15 +27,15 @@ const uint32_t kGenomeSize = 64;
 const std::string kLogDir = "output-test/";
 const std::string kInputDir = "input-test/";
 const std::string kStatisticFile = kLogDir + "statistic.txt";
-const std::string KKnapsackTestFile = kInputDir + "test-knapsack.txt";
+const std::string KKnapsackTestFile = kInputDir + "knapsack-test-1.txt";
 const std::string kKnapsackStatistFile = kLogDir + "statistic-knapsack.txt";
 const std::string kKnapsackTimeFile = "time-knapsack.txt";
-const std::string kSalesmanTestFile = kInputDir + "test-tsp.txt";
+const std::string kSalesmanTestFile = kInputDir + "tsp-test-1.txt";
 const std::string kSalesmanStatistFile = kLogDir + "statistic-salesman.txt";
 const std::string kSalesmanTimeFile = "time-salesman.txt";
 
 const uint32_t kElitismSize = 2;
-const uint32_t kNumGenerations = 100;
+const uint32_t kNumGenerations = 200;
 const uint32_t kPopulationSize = 100;
 
 #define frand() (((float)rand() / (float)RAND_MAX) * 100.0f)
@@ -62,4 +62,9 @@ extern inline std::string int2str(int num)
 extern inline std::string float2str(float num)
 {
     return Convert2String<float>(num);
+}
+
+extern inline std::string double2str(double num)
+{
+    return Convert2String<double>(num);
 }

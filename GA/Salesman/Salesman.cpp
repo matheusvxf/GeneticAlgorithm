@@ -97,9 +97,36 @@ bool Salesman::ReadNextTestCase(std::fstream &fs)
         int src, dst, cost;
 
         fs >> src >> dst >> cost;
-        set_connection(src - 1, dst - 1, cost);
+        set_connection(src, dst, cost);
     }
 
     return true;
 }
 
+std::string Salesman::ProblemGenerator(int num_cities)
+{
+    std::string str;
+    std::vector< std::pair< int, int > > Q(num_cities);
+    int num_edges = (num_cities) * (num_cities - 1) / 2;
+    int counter = 0;
+    for (auto &p : Q)
+    {
+        p.first = rand() % (1000 + 1);
+        p.second = rand() % (1000 + 1);
+    }
+
+    str += int2str(num_cities) + " " + int2str(num_edges) + "\n";
+    for (int i = 0; i < num_cities; ++i)
+    {
+        for (int j = i + 1; j < num_cities; ++j)
+        {
+            int delta_x = Q[i].first - Q[j].first;
+            int delta_y = Q[i].second - Q[j].second;
+
+            str += int2str(i) + " " + int2str(j) + " " + int2str(sqrt(delta_x * delta_x + delta_y * delta_y)) + "\n";
+            counter++;
+        }
+    }
+
+    return str;
+}

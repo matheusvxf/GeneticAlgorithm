@@ -81,3 +81,15 @@ bool Knapsack::ReadNextTestCase(std::fstream &fs)
 
     return true;
 }
+
+std::string Knapsack::ProblemGenerator(int num_items, int weight)
+{
+    std::string str;
+
+    str += int2str(num_items) + " " + int2str(weight) + "\n";
+
+    for (int i = 0; i < num_items; ++i)
+        str += int2str(rand() % 100 + 1) + " " + int2str(rand() % (weight + 1)) + "\n";
+    
+    return str;
+}

@@ -37,5 +37,8 @@ public:
     inline int num_vertices() { return graph_.num_nodes(); }
     inline int num_cities() { return num_vertices(); }
     inline int cost(int i, int j) { return graph_.cost(i, j); }
+
+
+    static std::string ProblemGenerator(int num_cities);
 };
 

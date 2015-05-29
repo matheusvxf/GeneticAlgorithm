@@ -16,8 +16,7 @@ public:
     virtual void prepare();
     void Selection();
     void GenPopulation();
-    void Loop();
-    Solution& Run();
+    GeneticAlgorithm::SolutionVector& Run();
     inline std::string& set_time_output_file(const std::string &file) { return time_output_file_ = file; }
     inline std::string& time_output_file() { return time_output_file_; }
     inline std::string& set_statistic_output_file(const std::string &file) { return statistic_output_file_ = file; }

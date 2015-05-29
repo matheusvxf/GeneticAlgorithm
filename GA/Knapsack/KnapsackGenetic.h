@@ -1,7 +1,8 @@
 #pragma once
 
 #include "GeneticAlgorithmWrapper.h"
-#include "Knapsack.h"
+
+class Knapsack;
 
 class KnapsackGene : public IGeneIndependent
 {

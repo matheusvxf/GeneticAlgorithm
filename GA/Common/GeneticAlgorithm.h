@@ -80,7 +80,7 @@ public:
     GeneticAlgorithm(SolutionComparator compare);
     virtual ~GeneticAlgorithm();
 
-    virtual Solution& Run();
+    virtual SolutionVector& Run();
     virtual SolutionComparator Compare() const;
 
     int set_population_size(int population_size);

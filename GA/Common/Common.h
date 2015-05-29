@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <sstream>
+#include <string>
 
 typedef bool Bit;
 typedef unsigned char uint8_t;
@@ -23,14 +24,15 @@ const uint32_t kGenomeSize = 64;
 #define FIND(Q, q) (Q.find(q) != Q.end())
 #define foreach(Q, it) for(auto it = Q.begin(); it != Q.end(); ++it)
 
-const char salesman_test_file[] = "test_tsp.txt";
-const char knapsack_test_file[] = "test_knapsack.txt";
-const char kStatisticFile[] = "statistic.txt";
-const char kTimeFile[] = "time.txt";
-const char kKnapsackStatistFile[] = "statisticKnapsack.txt";
-const char kKnapsackTimeFile[] = "timeKnapsack.txt";
-const char kSalesmanStatistFile[] = "statisticSalesman.txt";
-const char kSalesmanTimeFile[] = "timeSalesman.txt";
+const std::string kLogDir = "output-test/";
+const std::string kInputDir = "input-test/";
+const std::string kStatisticFile = kLogDir + "statistic.txt";
+const std::string KKnapsackTestFile = kInputDir + "test-knapsack.txt";
+const std::string kKnapsackStatistFile = kLogDir + "statistic-knapsack.txt";
+const std::string kKnapsackTimeFile = "time-knapsack.txt";
+const std::string kSalesmanTestFile = kInputDir + "test-tsp.txt";
+const std::string kSalesmanStatistFile = kLogDir + "statistic-salesman.txt";
+const std::string kSalesmanTimeFile = "time-salesman.txt";
 
 const uint32_t kElitismSize = 2;
 const uint32_t kNumGenerations = 100;

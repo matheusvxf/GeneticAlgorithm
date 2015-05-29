@@ -47,12 +47,12 @@ GeneticAlgorithm::SolutionComparator GeneticAlgorithm::Compare() const
     return Solution::compare;
 }
 
-Solution& GeneticAlgorithm::Run()
+GeneticAlgorithm::SolutionVector& GeneticAlgorithm::Run()
 {
     // Initialize random seed
     srand((uint32_t)time(NULL));
     Loop();
-    return **population_.begin();
+    return population_array_;
 }
 
 void GeneticAlgorithm::Loop()

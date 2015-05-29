@@ -4,27 +4,7 @@
 
 #include "Logger.h"
 
-void GeneticAlgorithmWrapper::Loop()
-{
-    if (!time_output_file().empty())
-    {
-        Logger logger;
-        auto start = std::chrono::system_clock::now();
-
-        GeneticAlgorithm::Loop();
-
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - start);
-        logger.open(time_output_file(), std::fstream::app);
-        logger.fstream() << duration.count() << std::endl;
-        logger.close();
-    }
-    else
-    {
-        GeneticAlgorithm::Loop();
-    }
-}
-
-Solution& GeneticAlgorithmWrapper::Run()
+GeneticAlgorithm::SolutionVector& GeneticAlgorithmWrapper::Run()
 {
     if (!statistic_output_file().empty())
     {
@@ -35,7 +15,7 @@ Solution& GeneticAlgorithmWrapper::Run()
         logger.open(statistic_output_file(), std::fstream::app);
         logger.LogPopulationFitness(population_array_);        
         logger.close();
-        return **population_.begin();
+        return population_array_;
     }
     else
     {

@@ -5,6 +5,7 @@
 #include <chrono>       // std::chrono::system_clock
 
 #include "Common.h"
+#include "Knapsack.h"
 
 static Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
 

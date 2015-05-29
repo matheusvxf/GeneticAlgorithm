@@ -4,6 +4,7 @@
 #include <algorithm>
 
 #include "KnapsackGenetic.h"
+#include "Logger.h"
 
 #define all(Q) Q.begin(), Q.end()
 
@@ -49,15 +50,34 @@ int Knapsack::SolveDynamicProgramming()
     return m[0][W];
 }
 
-float Knapsack::SolveGA(int test_num)
+GeneticAlgorithm::SolutionVector& Knapsack::SolveGeneticAlgorithm()
 {
-    KnapsackGeneticAlgorithm GA;
-    std::string str_builder = "statistic-knapsack-test-" + int2str(test_num) + ".txt";
+    ga_manager_.set_capacity(knapsack_capacity_);
+    ga_manager_.set_knapsack(*this);
+    ga_manager_.set_generation_statistic_output_file(generation_statistic_file_);
 
-    GA.set_capacity(knapsack_capacity_);
-    GA.set_knapsack(*this);
-    GA.set_generation_statistic_output_file(str_builder);
+    return ga_manager_.Run();
+}
 
-    auto &solution = GA.Run();
-    return solution.fitness();
+bool Knapsack::ReadNextTestCase(std::fstream &fs)
+{
+    int num_items, capacity;
+
+    fs >> num_items >> capacity;
+
+    if (num_items == 0)
+        return false;
+
+    set_num_items(num_items);
+    set_capacity(capacity);
+
+    for (int i = 0; i < num_items; ++i)
+    {
+        int value, weight;
+
+        fs >> value >> weight;
+        set_item(i, value, weight);
+    }
+
+    return true;
 }

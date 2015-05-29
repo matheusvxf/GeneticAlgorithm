@@ -83,13 +83,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="TestKnapsack.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="TestTSP.cpp" />
+    <ClCompile Include="TestWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TestKnapsack.h" />
-    <ClInclude Include="TestTSP.h" />
+    <ClInclude Include="TestWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="test_knapsack.txt" />

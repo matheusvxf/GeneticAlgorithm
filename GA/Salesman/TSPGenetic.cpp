@@ -6,6 +6,7 @@
 #include <unordered_set>
 
 #include "Common.h"
+#include "Salesman.h"
 
 static Solution *GenRandomSolution(GeneticAlgorithm &algorithm_manager);
 static bool compare(Solution* a, Solution* b);
@@ -23,6 +24,8 @@ bool compare(Solution* a, Solution *b)
 {
     return a->fitness() < b->fitness();
 }
+
+int TSPGeneticAlgorithm::num_cities() const { return salesman_->num_cities(); }
 
 Gene* TSPGene::clone() const
 {
@@ -78,7 +81,7 @@ Solution& TSPSolution::Mutation(GeneticAlgorithm& algorithm_manager)
 {
     auto &manager = *static_cast<TSPGeneticAlgorithm*>(&algorithm_manager);
     auto &genome = *static_cast<TSPGenome*>(genome_);
-    auto salesman = manager.salesman();
+    auto &salesman = manager.salesman();
     auto mutation_rate = manager.mutation_rate();
     int num_cities = salesman.num_cities();
 
@@ -104,7 +107,7 @@ Solution& TSPSolution::Mutation(GeneticAlgorithm& algorithm_manager)
 float TSPSolution::CalcFitness(GeneticAlgorithm &algorithm_manager)
 {
     auto &manager = *static_cast<TSPGeneticAlgorithm*>(&algorithm_manager);
-    auto salesman = manager.salesman();
+    auto &salesman = manager.salesman();
     int num_genes = genome_->size();
     TSPGene *a, *b;
     int i = 0, first_city;

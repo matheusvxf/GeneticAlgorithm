@@ -1,6 +1,7 @@
 #include "Salesman.h"
 
 #include <algorithm>
+#include <fstream>
 
 #include "Common.h"
 #include "TSPGenetic.h"
@@ -72,15 +73,33 @@ int Salesman::SolveDynamicProgramming()
     return DynamicProgrammingRecursion(0, S);
 }
 
-float Salesman::SolveGA(int test_num)
+GeneticAlgorithm::SolutionVector& Salesman::SolveGeneticAlgorithm()
 {
-    TSPGeneticAlgorithm genetic;
-    std::string str_builder = "statistic-salesman-test-" + int2str(test_num) + ".txt";
-    
-    genetic.set_salesman(*this);
-    genetic.set_generation_statistic_output_file(str_builder);
+    ga_manager_.set_salesman(*this);
+    ga_manager_.set_generation_statistic_output_file(generation_statistic_file_);
 
-    auto &salesman = genetic.Run();
-    return salesman.fitness();
+    return ga_manager_.Run();
+}
+
+bool Salesman::ReadNextTestCase(std::fstream &fs)
+{
+    int num_vertices, num_edges;
+
+    fs >> num_vertices >> num_edges;
+
+    if (num_vertices == 0)
+        return false;
+
+    set_num_vertices(num_vertices);
+
+    for (int i = 0; i < num_edges; ++i)
+    {
+        int src, dst, cost;
+
+        fs >> src >> dst >> cost;
+        set_connection(src - 1, dst - 1, cost);
+    }
+
+    return true;
 }
 

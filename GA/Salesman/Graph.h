@@ -11,8 +11,8 @@ public:
     ~Graph();
 
     void set_num_nodes(int num_nodes);
-    inline int num_nodes() { return adj.size(); }
-    inline int cost(int src, int dst) { return adj[src][dst]; }
+    inline int num_nodes() const { return adj.size(); }
+    inline int cost(int src, int dst) const { return adj[src][dst]; }
     inline int set_cost(int src, int dst, int cost) { return adj[src][dst] = cost; }
 };
 

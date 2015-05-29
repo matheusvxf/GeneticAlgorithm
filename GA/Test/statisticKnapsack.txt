@@ -1,3 +1,0 @@
-best worse average standard_deviation
-62 62 62 0
-81 81 81 0

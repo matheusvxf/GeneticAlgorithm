@@ -1,7 +1,8 @@
 #pragma once
 
 #include "GeneticAlgorithmWrapper.h"
-#include "Salesman.h"
+
+class Salesman;
 
 class TSPGene : public Gene
 {
@@ -61,7 +62,7 @@ public:
 
     inline Salesman& salesman() const { return *salesman_; }
     inline std::vector< int >& cities_array() { return cities_array_; }
-    inline int num_cities() const { return salesman_->num_cities(); }
+    int num_cities() const;
 
     Salesman& set_salesman(Salesman &TSP);
 };

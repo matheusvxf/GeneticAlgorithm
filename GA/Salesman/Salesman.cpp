@@ -73,9 +73,12 @@ int Salesman::SolveDynamicProgramming()
     return DynamicProgrammingRecursion(0, S);
 }
 
-void Salesman::SolveExactSolution()
+std::string Salesman::SolveExactSolution()
 {
-    printf("Dynamic Programming Solution: %f\n", SolveDynamicProgramming());
+    int result = SolveDynamicProgramming();
+    printf("Dynamic Programming Solution: %d\n", result);
+
+    return int2str(result);
 }
 
 GeneticAlgorithm::SolutionVector& Salesman::SolveGeneticAlgorithm()

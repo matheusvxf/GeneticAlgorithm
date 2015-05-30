@@ -76,7 +76,7 @@ std::pair< int, std::set< int > > Knapsack::SolveDynamicProgramming()
     return std::pair< int, std::set< int > >(std::make_pair(m[0][W], FindKnapsack(m, 0, W)));
 }
 
-void Knapsack::SolveExactSolution()
+std::string Knapsack::SolveExactSolution()
 {
     auto solution = SolveDynamicProgramming();
 
@@ -90,6 +90,7 @@ void Knapsack::SolveExactSolution()
     }
     printf("\n");
 #endif
+    return int2str(solution.first);
 }
 
 GeneticAlgorithm::SolutionVector& Knapsack::SolveGeneticAlgorithm()
@@ -131,7 +132,7 @@ std::string Knapsack::ProblemGenerator(int num_items, int weight)
     str += int2str(num_items) + " " + int2str(weight) + "\n";
 
     for (int i = 0; i < num_items; ++i)
-        str += int2str(rand() % 100 + 1) + " " + int2str(rand() % (weight + 1)) + "\n";
+        str += int2str(rand() % 100 + 1) + " " + int2str(rand() % (weight/2 + 1)) + "\n";
     
     return str;
 }

@@ -44,11 +44,11 @@ void TestWrapper::SolveDynamicProgramming(const std::string& file)
 {
     Logger logger;
     auto start = std::chrono::system_clock::now();
-    solver_->SolveExactSolution();
+    auto fitness = solver_->SolveExactSolution();
     auto duration = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now() - start);
     
     logger.open(file, std::fstream::app);
-    logger.fstream() << solver_->problem_size() << " " << duration.count() << std::endl;
+    logger.fstream() << solver_->problem_size() << " " << fitness << " " << duration.count() << std::endl;
     logger.close();
 }
 
@@ -67,7 +67,7 @@ void TestWrapper::SolveGeneticAlgorithm(const std::string& file)
     logger.LogPopulationFitness(population);
     logger.close();
     logger.open(file, std::fstream::app);
-    logger.fstream() << solver_->problem_size() << " " << duration.count() << std::endl;
+    logger.fstream() << solver_->problem_size() << " " << solution.fitness() << " " << duration.count() << std::endl;
     logger.close();
 
     printf("Genetic Algorithm Solution: %f\n\n", solution.fitness());

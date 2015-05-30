@@ -22,7 +22,7 @@ public:
     ~Salesman();
 
     int SolveDynamicProgramming();
-    void SolveExactSolution();
+    std::string SolveExactSolution();
     GeneticAlgorithm::SolutionVector& SolveGeneticAlgorithm();
     bool ReadNextTestCase(std::fstream &fs);
     std::string problem_size() const { return int2str(graph_.num_nodes());  }

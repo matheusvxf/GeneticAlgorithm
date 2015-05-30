@@ -30,13 +30,6 @@ int main()
 {
     using namespace std;
 
-    if (kTask & RUN)
-    {
-        if (kTask & RUN_SALESMAN)
-            RunSalesmanTest();
-        if (kTask & RUN_KNAPSACK)
-            RunKnapsackTest();
-    }
     if (kTask & CREATE_TEST)
     {
         printf("Creating test...\n");
@@ -47,6 +40,13 @@ int main()
         GenKnapsackVarianceTest();
         printf("Test Generated\n");
     }
+    if (kTask & RUN)
+    {
+        if (kTask & RUN_SALESMAN)
+            RunSalesmanTest();
+        if (kTask & RUN_KNAPSACK)
+            RunKnapsackTest();
+    }
 }
 
 void RunKnapsackTest()
@@ -54,6 +54,7 @@ void RunKnapsackTest()
     TestWrapper wrapper(new Knapsack());
     
     wrapper.set_test_file(kInputDir + kKnapsackTestFile);
+    wrapper.set_log_dir(kKnapsackLogDir);
     wrapper.Solve();
 }
 
@@ -62,6 +63,7 @@ void RunSalesmanTest()
     TestWrapper wrapper(new Salesman());
 
     wrapper.set_test_file(kInputDir + kTSPTestFile);
+    wrapper.set_log_dir(kTSPLogDir);
     wrapper.Solve();
 }
 
@@ -98,7 +100,7 @@ void GenKnapsackNumItemsTest()
     int weight = rand() % 1000;
     fs.open(kInputDir + kKnapsackNumItemsTestFile, std::fstream::out);
 
-    for (int i = 10; i < 100; ++i)
+    for (int i = 10; i < 200; i += 10)
     {
         fs << Knapsack::ProblemGenerator(i, weight);
     }

@@ -37,7 +37,7 @@ public:
 
     std::pair< int, std::set< int > > SolveDynamicProgramming();
     std::set<int> FindKnapsack(const std::vector< std::vector<int> > &m, int item, int weight);
-    void SolveExactSolution();
+    std::string SolveExactSolution();
     GeneticAlgorithm::SolutionVector& SolveGeneticAlgorithm();
     bool ReadNextTestCase(std::fstream &fs);
     std::string problem_size() const { return int2str(items_.size()) + " " + int2str(knapsack_capacity_); }

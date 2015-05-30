@@ -41,7 +41,8 @@ std::string TSPLogDir = KTSPDir + "variance/";
 std::string TSPTestFile = kTSPVarianceTestFile;
 #endif
 
-int Test::Task = (RUN_KNAPSACK_NORMAL | RUN_KNAPSACK_WEIGHT | CREATE_TEST);
+int Test::Task = (RUN_KNAPSACK_NORMAL);
+bool Test::RunningVarianceTest = false;
 
 int main()
 {
@@ -77,9 +78,11 @@ int main()
             }
             if (Test::Task & RUN_SALESMAN_VARIANCE)
             {
+                Test::RunningVarianceTest = true;
                 TSPLogDir = KTSPDir + "variance/";
                 TSPTestFile = kTSPVarianceTestFile;
                 RunSalesmanTest();
+                Test::RunningVarianceTest = false;
             }
         }
         if (Test::Task & RUN_KNAPSACK)
@@ -98,9 +101,11 @@ int main()
             }
             if (Test::Task & RUN_KNAPSACK_VARIANCE)
             {
+                Test::RunningVarianceTest = true;
                 KnapsackLogDir = kKnapsackDir + "variance/";
                 KnapsackTestFile = kKnapsackVarianceTestFile;
                 RunKnapsackTest();
+                Test::RunningVarianceTest = false;
             }
         }
     }

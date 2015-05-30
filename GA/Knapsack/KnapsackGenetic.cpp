@@ -125,7 +125,8 @@ void KnapsackSolution::print(GeneticAlgorithm &algorithm_manager) const
 KnapsackGeneticAlgorithm::KnapsackGeneticAlgorithm()
 {
     set_solution_factory_(GenRandomSolution);
-    set_mutation_rate(0.5f);
+    set_mutation_rate(kKnapsackMutation);
+    set_crossover_rate(kKnapsackCrossover);
     GeneticAlgorithmWrapper::prepare();
 }
 

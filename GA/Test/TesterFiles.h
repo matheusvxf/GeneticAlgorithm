@@ -22,7 +22,7 @@ const std::string kOutputDir = "output-test/";
 const std::string kInputDir = "input-test/";
 
 const std::string kKnapsackDir = kOutputDir + "knapsack/";
-const std::string KTSPDir = "salesman/";
+const std::string KTSPDir = kOutputDir + "salesman/";
 
 const extern float kKnapsackMutation;
 const extern float kKnapsackCrossover;
@@ -48,7 +48,9 @@ enum TASK
     RUN_SALESMAN = (RUN_SALESMAN_NORMAL | RUN_SALESMAN_VARIANCE),
     RUN = RUN_SALESMAN | RUN_KNAPSACK,
     RUN_VARIANCE = (RUN_KNAPSACK_VARIANCE | RUN_SALESMAN_VARIANCE),
-    CREATE_TEST = 1 << 30
+    CREATE_TEST_KNAPSACK = 1 << 20,
+    CREATE_TEST_SALESMAN = 1 << 21,
+    CREATE_TEST = (CREATE_TEST_KNAPSACK | CREATE_TEST_SALESMAN)
 };
 
 namespace Test

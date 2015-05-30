@@ -24,7 +24,7 @@ for i = 1:num_test
     ylim([0, A(1,3)*1.05]);
     
     legend('Melhor Solução', 'Pior Solução', 'Fitness média', 'Desvio padrão', 'Fitness Desejada', 'Location','southoutside','Orientation','horizontal');
-    title('Knapsack - Desvio padrão da Fitness');
+    title('Knapsack - Desvio Padrão da Fitness');
     ylabel('Fitness');
     xlabel('Geração');
 end
@@ -37,7 +37,7 @@ average = sum(fitness)/length(fitness);
 variance = sum((fitness - average).^2)/length(fitness);
 standard_deviation = sqrt(variance);
 [average, variance, standard_deviation]
-
+standard_deviation/average * 100
 
 
 

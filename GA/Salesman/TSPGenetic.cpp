@@ -189,6 +189,8 @@ Solution** TSPSolution::Crossover(const Solution* a) const
 TSPGeneticAlgorithm::TSPGeneticAlgorithm() : GeneticAlgorithmWrapper(Compare())
 {
     set_solution_factory_(GenRandomSolution);
+    set_mutation_rate(kTSPMutation);
+    set_crossover_rate(kTSPCrossover);
     GeneticAlgorithmWrapper::prepare();
 }
 

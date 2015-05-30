@@ -17,9 +17,9 @@ static void GenKnapsackNumItemsTest();
 static void GenKnapsackWeightTest();
 static void GenKnapsackVarianceTest();
 
-const extern float kKnapsackMutation = 0.5f;
+const extern float kKnapsackMutation = 1.0f;
 const extern float kKnapsackCrossover = 70.0f;
-const extern float kTSPMutation = 0.1f;
+const extern float kTSPMutation = 15.0f;
 const extern float kTSPCrossover = 70.0f;
 
 #if(KNAPSACK_TEST == NORMAL)
@@ -41,8 +41,7 @@ std::string TSPLogDir = KTSPDir + "variance/";
 std::string TSPTestFile = kTSPVarianceTestFile;
 #endif
 
-int Test::Task = (RUN_SALESMAN_NORMAL | CREATE_TEST);
-//const TASK Test::Task = CREATE_TEST;
+int Test::Task = (RUN_KNAPSACK_NORMAL | RUN_KNAPSACK_WEIGHT | CREATE_TEST);
 
 int main()
 {
@@ -53,11 +52,17 @@ int main()
     if (Test::Task & CREATE_TEST)
     {
         printf("Creating test...\n");
-        GenSalesmanTest();
-        GenSalesmanVarianceTest();
-        GenKnapsackNumItemsTest();
-        GenKnapsackWeightTest();
-        GenKnapsackVarianceTest();
+        if (Test::Task & CREATE_TEST_SALESMAN)
+        {
+            GenSalesmanTest();
+            GenSalesmanVarianceTest();
+        }
+        if (Test::Task & CREATE_TEST_KNAPSACK)
+        {
+            GenKnapsackNumItemsTest();
+            GenKnapsackWeightTest();
+            GenKnapsackVarianceTest();
+        }
         printf("Test Generated\n");
     }
     if (Test::Task & RUN)
@@ -88,7 +93,7 @@ int main()
             if (Test::Task & RUN_KNAPSACK_WEIGHT)
             {
                 KnapsackLogDir = kKnapsackDir + "weight/";
-                KnapsackTestFile = kKnapsackNumItemsTestFile;
+                KnapsackTestFile = kKnapsackWeightTestFile;
                 RunKnapsackTest();
             }
             if (Test::Task & RUN_KNAPSACK_VARIANCE)
@@ -124,7 +129,7 @@ void GenSalesmanTest()
     std::fstream fs;
     fs.open(kInputDir + kTSPNumCitiesTestFile, std::fstream::out);
 
-    for (int i = 1; i < 15; ++i)
+    for (int i = 1; i <= 16; ++i)
     {
         fs << Salesman::ProblemGenerator(i);
     }
@@ -135,7 +140,8 @@ void GenSalesmanTest()
 void GenSalesmanVarianceTest()
 {
     std::fstream fs;
-    std::string test_str = Salesman::ProblemGenerator(10);
+    int num_cities = 16;
+    std::string test_str = Salesman::ProblemGenerator(num_cities);
     fs.open(kInputDir + kTSPVarianceTestFile, std::fstream::out);
 
     for (int i = 0; i < 30; ++i)

@@ -87,6 +87,7 @@
     <ClCompile Include="TestWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="TesterFiles.h" />
     <ClInclude Include="TestWrapper.h" />
   </ItemGroup>
   <ItemGroup>

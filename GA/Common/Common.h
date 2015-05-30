@@ -26,15 +26,6 @@ const uint32_t kGenomeSize = 64;
 #define FIND(Q, q) (Q.find(q) != Q.end())
 #define foreach(Q, it) for(auto it = Q.begin(); it != Q.end(); ++it)
 
-const std::string kLogDir = "output-test/";
-const std::string kInputDir = "input-test/";
-const std::string kStatisticFile = kLogDir + "statistic.txt";
-const std::string KKnapsackTestFile = kInputDir + "knapsack-test-1.txt";
-const std::string kKnapsackStatistFile = kLogDir + "statistic-knapsack.txt";
-const std::string kKnapsackTimeFile = "time-knapsack.txt";
-const std::string kSalesmanTestFile = kInputDir + "tsp-test-1.txt";
-const std::string kSalesmanStatistFile = kLogDir + "statistic-salesman.txt";
-const std::string kSalesmanTimeFile = "time-salesman.txt";
 
 const uint32_t kElitismSize = 2;
 const uint32_t kNumGenerations = 100;

@@ -27,9 +27,6 @@ public:
     bool ReadNextTestCase(std::fstream &fs);
     std::string problem_size() const { return int2str(graph_.num_nodes());  }
 
-    std::string statistic_file() const { return kSalesmanStatistFile; }
-    std::string default_time_file() const { return kSalesmanTimeFile; }
-    std::string test_file() const { return kSalesmanTestFile; }
     std::string name() const { return "salesman"; }
     std::string& set_generation_statistic_file(const std::string& file) { return generation_statistic_file_ = file; }
 

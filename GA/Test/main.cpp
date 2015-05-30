@@ -4,6 +4,7 @@
 #include "Knapsack.h"
 #include "Salesman.h"
 #include "Common.h"
+#include "TesterFiles.h"
 
 // Private functions
 static void RunKnapsackTest();
@@ -52,6 +53,7 @@ void RunKnapsackTest()
 {
     TestWrapper wrapper(new Knapsack());
     
+    wrapper.set_test_file(kInputDir + kKnapsackTestFile);
     wrapper.Solve();
 }
 
@@ -59,13 +61,14 @@ void RunSalesmanTest()
 {
     TestWrapper wrapper(new Salesman());
 
+    wrapper.set_test_file(kInputDir + kTSPTestFile);
     wrapper.Solve();
 }
 
 void GenSalesmanTest()
 {
     std::fstream fs;
-    fs.open(kInputDir + "tsp-test-1.txt", std::fstream::out);
+    fs.open(kInputDir + kTSPNumCitiesTestFile, std::fstream::out);
 
     for (int i = 1; i < 15; ++i)
     {
@@ -79,7 +82,7 @@ void GenSalesmanVarianceTest()
 {
     std::fstream fs;
     std::string test_str = Salesman::ProblemGenerator(10);
-    fs.open(kInputDir + "tsp-test-variance-1.txt", std::fstream::out);
+    fs.open(kInputDir + kTSPVarianceTestFile, std::fstream::out);
 
     for (int i = 0; i < 30; ++i)
     {
@@ -93,7 +96,7 @@ void GenKnapsackNumItemsTest()
 {
     std::fstream fs;
     int weight = rand() % 1000;
-    fs.open(kInputDir + "knapsack-test-num-items-1.txt", std::fstream::out);
+    fs.open(kInputDir + kKnapsackNumItemsTestFile, std::fstream::out);
 
     for (int i = 10; i < 100; ++i)
     {
@@ -107,7 +110,7 @@ void GenKnapsackWeightTest()
 {
     std::fstream fs;
     int num_items = 200;
-    fs.open(kInputDir + "knapsack-test-weight-1.txt", std::fstream::out);
+    fs.open(kInputDir + kKnapsackWeightTestFile, std::fstream::out);
 
     for (int w = 10000; w <= 200000; w += 10000)
     {
@@ -123,7 +126,7 @@ void GenKnapsackVarianceTest()
     int weight = rand() % 1000;
     std::string str_test = Knapsack::ProblemGenerator(100, weight);
 
-    fs.open(kInputDir + "knapsack-test-variance-1.txt", std::fstream::out);
+    fs.open(kInputDir + kKnapsackVarianceTestFile, std::fstream::out);
 
     for (int i = 0; i < 30; ++i)
     {

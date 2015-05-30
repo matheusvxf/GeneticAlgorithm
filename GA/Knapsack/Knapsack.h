@@ -42,9 +42,6 @@ public:
     bool ReadNextTestCase(std::fstream &fs);
     std::string problem_size() const { return int2str(items_.size()) + " " + int2str(knapsack_capacity_); }
 
-    std::string statistic_file() const { return kKnapsackStatistFile; }
-    std::string default_time_file() const { return kKnapsackTimeFile; }
-    std::string test_file() const { return KKnapsackTestFile; }
     std::string name() const { return "knapsack"; }
     std::string& set_generation_statistic_file(const std::string& file) { return generation_statistic_file_ = file; }
 

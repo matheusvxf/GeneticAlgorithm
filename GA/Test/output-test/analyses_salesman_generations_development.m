@@ -27,7 +27,7 @@ for i = 1:16
     title('Caxeiro Viajante - Evolução da Fitness');
     ylabel('Fitness');
     xlabel('Geração');
-    print([salesman.folder 'salesman-generation-evolution-' int2str(i * 10) '-cities'], '-dpng'); 
+    print([salesman.folder 'salesman-generation-evolution-' int2str(i) '-cities'], '-dpng'); 
 end
 
 

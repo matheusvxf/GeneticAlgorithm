@@ -31,7 +31,7 @@ void TestWrapper::Solve()
         solver_->set_generation_statistic_file(generation_statistic_file);
 
         // No need to run dynamic programming every time for variance test
-        if (!(Test::Task & RUN_VARIANCE) || first_test)
+        if (!(Test::RunningVarianceTest) || first_test)
         {
             SolveDynamicProgramming(dynamic_time_file);
             first_test = false;

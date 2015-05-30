@@ -23,7 +23,7 @@ enum TASK
     CREATE_TEST = 1 << 2
 };
 
-const int kTask = (RUN_KNAPSACK | CREATE_TEST);
+const int kTask = (RUN_KNAPSACK | RUN_SALESMAN | CREATE_TEST);
 //const TASK kTask = CREATE_TEST;
 
 int main()

@@ -64,7 +64,7 @@ int Salesman::SolveDynamicProgramming()
         std::fill(ALL((*vec)), INF);
     }
 
-    for (int i = 1; i < N; ++i)
+    for (int i = 0; i < N; ++i)
     {
         INSERT_TO_SET(S, i);
         m[i][0] = graph_.cost(i, 0);

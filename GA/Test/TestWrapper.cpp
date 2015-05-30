@@ -11,6 +11,7 @@ void TestWrapper::Solve()
     std::fstream fs;
     Logger logger;
     int test = 1;
+    bool first_test = true;
     statistic_file_ = log_dir() + solver_->name() + "-statistic.txt";
     std::string dynamic_time_file = log_dir() + "dynamic-time-" + solver_->name() + ".txt";
     std::string genetic_time_file = log_dir() + "genetic-time-" + solver_->name() + ".txt";
@@ -18,20 +19,23 @@ void TestWrapper::Solve()
     logger.create(statistic_file());
     logger.create(dynamic_time_file);
     logger.create(genetic_time_file);
-    logger.open(statistic_file(), std::fstream::app);
-    logger.fstream() << "best worse average standard_deviation" << std::endl;
-    logger.close();
 
     fs.open(test_file(), std::fstream::in);
 
     printf("%s Problem\n", solver_->name().c_str());
+
     while (solver_->ReadNextTestCase(fs))
     {
         std::string generation_statistic_file = log_dir() + "statistic-" + solver_->name() +
             "-test-" + int2str(test) + ".txt";
         solver_->set_generation_statistic_file(generation_statistic_file);
 
-        SolveDynamicProgramming(dynamic_time_file);
+        // No need to run dynamic programming every time for variance test
+        if (!(Test::Task & RUN_VARIANCE) || first_test)
+        {
+            SolveDynamicProgramming(dynamic_time_file);
+            first_test = false;
+        }
         SolveGeneticAlgorithm(genetic_time_file);
         test++;
     }

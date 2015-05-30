@@ -1,5 +1,7 @@
+#include <time.h>
 #include <iostream>
 #include <fstream>
+#include <string>
 
 #include "Knapsack.h"
 #include "Salesman.h"
@@ -15,22 +17,40 @@ static void GenKnapsackNumItemsTest();
 static void GenKnapsackWeightTest();
 static void GenKnapsackVarianceTest();
 
-enum TASK
-{
-    RUN_SALESMAN = 1 << 0,
-    RUN_KNAPSACK = 1 << 1,
-    RUN = RUN_SALESMAN | RUN_KNAPSACK,
-    CREATE_TEST = 1 << 2
-};
+const extern float kKnapsackMutation = 0.5f;
+const extern float kKnapsackCrossover = 70.0f;
+const extern float kTSPMutation = 0.1f;
+const extern float kTSPCrossover = 70.0f;
 
-const int kTask = (RUN_KNAPSACK | RUN_SALESMAN | CREATE_TEST);
-//const TASK kTask = CREATE_TEST;
+#if(KNAPSACK_TEST == NORMAL)
+std::string KnapsackLogDir = kKnapsackDir + "normal/";
+std::string KnapsackTestFile = kKnapsackNumItemsTestFile;
+#elif(KNAPSACK_TEST == VARIANCE)
+std::string KnapsackLogDir = kKnapsackDir + "variance/";
+std::string KnapsackTestFile = kKnapsackVarianceTestFile;
+#elif(KNAPSACK_TEST == KNAPSACK_WEIGHT)
+std::string KnapsackLogDir = kKnapsackDir + "weight/";
+std::string KnapsackTestFile = kKnapsackWeightTestFile;
+#endif
+
+#if(TSP_TEST == NORMAL)
+std::string TSPLogDir = KTSPDir + "normal/";
+std::string TSPTestFile = kTSPNumCitiesTestFile;
+#elif(TSP_TEST == VARIANCE)
+std::string TSPLogDir = KTSPDir + "variance/";
+std::string TSPTestFile = kTSPVarianceTestFile;
+#endif
+
+int Test::Task = (RUN_KNAPSACK_NORMAL | CREATE_TEST);
+//const TASK Test::Task = CREATE_TEST;
 
 int main()
 {
     using namespace std;
 
-    if (kTask & CREATE_TEST)
+    // Initialize random seed
+    srand((uint32_t)time(NULL));
+    if (Test::Task & CREATE_TEST)
     {
         printf("Creating test...\n");
         GenSalesmanTest();
@@ -40,12 +60,44 @@ int main()
         GenKnapsackVarianceTest();
         printf("Test Generated\n");
     }
-    if (kTask & RUN)
+    if (Test::Task & RUN)
     {
-        if (kTask & RUN_SALESMAN)
-            RunSalesmanTest();
-        if (kTask & RUN_KNAPSACK)
-            RunKnapsackTest();
+        if (Test::Task & RUN_SALESMAN)
+        {
+            if (Test::Task & RUN_SALESMAN_NORMAL)
+            {
+                TSPLogDir = KTSPDir + "normal/";
+                TSPTestFile = kTSPNumCitiesTestFile;
+                RunSalesmanTest();
+            }
+            if (Test::Task & RUN_SALESMAN_VARIANCE)
+            {
+                TSPLogDir = KTSPDir + "variance/";
+                TSPTestFile = kTSPVarianceTestFile;
+                RunSalesmanTest();
+            }
+        }
+        if (Test::Task & RUN_KNAPSACK)
+        {
+            if (Test::Task & RUN_KNAPSACK_NORMAL)
+            {
+                KnapsackLogDir = kKnapsackDir + "normal/";
+                KnapsackTestFile = kKnapsackNumItemsTestFile;
+                RunKnapsackTest();
+            }
+            if (Test::Task & RUN_KNAPSACK_WEIGHT)
+            {
+                KnapsackLogDir = kKnapsackDir + "weight/";
+                KnapsackTestFile = kKnapsackNumItemsTestFile;
+                RunKnapsackTest();
+            }
+            if (Test::Task & RUN_KNAPSACK_VARIANCE)
+            {
+                KnapsackLogDir = kKnapsackDir + "variance/";
+                KnapsackTestFile = kKnapsackVarianceTestFile;
+                RunKnapsackTest();
+            }
+        }
     }
 }
 
@@ -53,8 +105,8 @@ void RunKnapsackTest()
 {
     TestWrapper wrapper(new Knapsack());
     
-    wrapper.set_test_file(kInputDir + kKnapsackTestFile);
-    wrapper.set_log_dir(kKnapsackLogDir);
+    wrapper.set_test_file(kInputDir + KnapsackTestFile);
+    wrapper.set_log_dir(KnapsackLogDir);
     wrapper.Solve();
 }
 
@@ -62,8 +114,8 @@ void RunSalesmanTest()
 {
     TestWrapper wrapper(new Salesman());
 
-    wrapper.set_test_file(kInputDir + kTSPTestFile);
-    wrapper.set_log_dir(kTSPLogDir);
+    wrapper.set_test_file(kInputDir + TSPTestFile);
+    wrapper.set_log_dir(TSPLogDir);
     wrapper.Solve();
 }
 
@@ -97,10 +149,10 @@ void GenSalesmanVarianceTest()
 void GenKnapsackNumItemsTest()
 {
     std::fstream fs;
-    int weight = rand() % 1000;
+    int weight = 1000;
     fs.open(kInputDir + kKnapsackNumItemsTestFile, std::fstream::out);
 
-    for (int i = 10; i < 200; i += 10)
+    for (int i = 10; i <= 200; i += 10)
     {
         fs << Knapsack::ProblemGenerator(i, weight);
     }
@@ -111,7 +163,7 @@ void GenKnapsackNumItemsTest()
 void GenKnapsackWeightTest()
 {
     std::fstream fs;
-    int num_items = 200;
+    int num_items = 100;
     fs.open(kInputDir + kKnapsackWeightTestFile, std::fstream::out);
 
     for (int w = 10000; w <= 200000; w += 10000)
@@ -125,8 +177,9 @@ void GenKnapsackWeightTest()
 void GenKnapsackVarianceTest()
 {
     std::fstream fs;
-    int weight = rand() % 1000;
-    std::string str_test = Knapsack::ProblemGenerator(100, weight);
+    int weight = 1000;
+    int num_items = 100;
+    std::string str_test = Knapsack::ProblemGenerator(num_items, weight);
 
     fs.open(kInputDir + kKnapsackVarianceTestFile, std::fstream::out);
 

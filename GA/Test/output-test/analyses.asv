@@ -1,0 +1,88 @@
+FOLDER = '';
+problem = struct('knapsack', [FOLDER 'knapsack/'], ...
+                 'salesman', [FOLDER 'salesman/']);
+knapsack = struct('name', 'knapsack', ...
+                  'folder', [FOLDER 'knapsack/'], ...
+                  'test', struct('name', {{'normal', 'variance', 'weight'}}, ...
+                      'normal', 'normal', ...
+                      'variance', 'variance', ...
+                      'weight', 'weight'));
+                  
+% Teste número de items
+programacao_dinamica = [char(knapsack.folder) char(knapsack.test.normal) '/dynamic-time-' char(knapsack.name) '.txt']; 
+algoritmo_genetico = [char(knapsack.folder) char(knapsack.test.normal) '/genetic-time-' char(knapsack.name) '.txt'];
+A = read_table(programacao_dinamica, '%d %d %d %d', [4 Inf]);
+B = read_table(algoritmo_genetico, '%d %d %d %d', [4 Inf]);
+
+plot(A(:,1), A(:,4) / 1000); hold on;
+plot(B(:,1), B(:,4) / 1000); hold off;
+legend('Programação Dinâmica', 'Algoritmo Genêtico')
+title('Knapsack - Complexidade Programação Dinâmica vs Algoritmo Genético');
+ylabel('tempo(ms)');
+xlabel('Número de items');
+print([knapsack.folder 'knapsack-num-items-test-capacity-1000'], '-dpng');
+
+% Test - Knapsack capacity O(nW) - pseudo polynomial behavior of the dynamic
+% programming
+programacao_dinamica = [char(knapsack.folder) char(knapsack.test.weight) '/dynamic-time-' char(knapsack.name) '.txt']; 
+algoritmo_genetico = [char(knapsack.folder) char(knapsack.test.weight) '/genetic-time-' char(knapsack.name) '.txt'];
+A = read_table(programacao_dinamica, '%d %d %d %d', [4 Inf]);
+B = read_table(algoritmo_genetico, '%d %d %d %d', [4 Inf]);
+
+semilogx(A(:,2), A(:,4) / 1000); hold on;
+semilogx(B(:,2), B(:,4) / 1000); hold off;
+legend('Programação Dinâmica', 'Algoritmo Genêtico')
+title('Knapsack - Complexidade Programação Dinâmica vs Algoritmo Genético');
+ylabel('tempo(ms)');
+xlabel('log(Capacidade da Mochila)');
+print([knapsack.folder 'knapsack-weight-test-1000-items'], '-dpng');
+
+% Test - Generations Development
+programacao_dinamica = [char(knapsack.folder) char(knapsack.test.normal) '/dynamic-time-' char(knapsack.name) '.txt']; 
+A = read_table(programacao_dinamica, '%d %d %d %d', [4 Inf]);
+for i = 20:20
+    algoritmo_genetico = [char(knapsack.folder) char(knapsack.test.normal) '/statistic-' char(knapsack.name) '-test-' int2str(i) '.txt'];
+    B = read_table(algoritmo_genetico, '%d %d %f %f', [4 Inf]);
+
+    plot(B(:,1), 'r'); hold on;
+    plot(B(:,2));
+    plot(B(:,3));
+    plot(B(:,4));
+    refline(0, A(i,3)); hold off;
+    ylim([0, A(i,3)*1.05]);
+    
+    legend('Melhor Solução', 'Pior Solução', 'Fitness média', 'Desvio padrão', 'Fitness Desejada', 'Location','southoutside','Orientation','horizontal');
+    title('Knapsack - Evolução da Fitness');
+    ylabel('Fitness');
+    xlabel('Geração');
+    print([knapsack.folder 'knapsack-generation-evolution-normal-test-' int2str(i * 10) '-items'], '-dpng'); 
+end
+
+% Test - Variance
+programacao_dinamica = [char(knapsack.folder) char(knapsack.test.variance) '/dynamic-time-' char(knapsack.name) '.txt']; 
+A = read_table(programacao_dinamica, '%d %d %d %d', [4 Inf]);
+num_test = 30;
+for i = 1:num_test
+    algoritmo_genetico = [char(knapsack.folder) char(knapsack.test.variance) '/statistic-' char(knapsack.name) '-test-' int2str(i) '.txt'];
+    B = read_table(algoritmo_genetico, '%d %d %f %f', [4 Inf]);
+
+    plot(B(:,1), 'r.'); hold on;
+    plot(B(:,2), 'b.');
+    plot(B(:,3), 'g.');
+    plot(B(:,4), 'y.');
+    refline(0, A(1,3)); hold on;
+    ylim([0, A(1,3)*1.05]);
+    
+    legend('Melhor Solução', 'Pior Solução', 'Fitness média', 'Desvio padrão', 'Fitness Desejada', 'Location','southoutside','Orientation','horizontal');
+    title('Knapsack - Desvio padrão da Fitness');
+    ylabel('Fitness');
+    xlabel('Geração');
+end
+hold off;
+print([knapsack.folder 'knapsack-variance-test-100-items'], '-dpng');
+algoritmo_genetico = [char(knapsack.folder) char(knapsack.test.variance) char(knapsack.name) '-statistic-.txt'];
+B = read_table(algoritmo_genetico, '%d %d %f %f', [4 Inf]);
+
+
+
+

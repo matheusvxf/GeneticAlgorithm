@@ -41,7 +41,7 @@ std::string TSPLogDir = KTSPDir + "variance/";
 std::string TSPTestFile = kTSPVarianceTestFile;
 #endif
 
-int Test::Task = (RUN_KNAPSACK_NORMAL | CREATE_TEST);
+int Test::Task = (RUN_SALESMAN_NORMAL | CREATE_TEST);
 //const TASK Test::Task = CREATE_TEST;
 
 int main()

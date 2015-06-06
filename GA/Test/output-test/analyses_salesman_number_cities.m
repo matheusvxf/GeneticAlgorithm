@@ -13,8 +13,8 @@ B = read_table(algoritmo_genetico, '%d %d %d', [3 Inf]);
 
 plot(A(:,1), A(:,3) / 1000); hold on;
 plot(B(:,1), B(:,3) / 1000); hold off;
-legend('Programação Dinâmica', 'Algoritmo Genêtico');
-title('Salesman - Complexidade Programação Dinâmica vs Algoritmo Genético');
+legend('Programação Dinâmica', 'Algoritmo Genêtico', 'Location','southoutside','Orientation','horizontal');
+title('Caxeiro Viajante - Complexidade Programação Dinâmica vs Algoritmo Genético');
 ylabel('tempo(ms)');
 xlabel('Cidades');
 print([salesman.folder 'salesman-cidades'], '-dpng');

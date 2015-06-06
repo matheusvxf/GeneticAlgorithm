@@ -16,7 +16,7 @@ B = read_table(algoritmo_genetico, '%d %d %d %d', [4 Inf]);
 
 plot(A(:,1), A(:,4) / 1000); hold on;
 plot(B(:,1), B(:,4) / 1000); hold off;
-legend('Programação Dinâmica', 'Algoritmo Genêtico')
+legend('Programação Dinâmica', 'Algoritmo Genêtico', 'Location','southoutside','Orientation','horizontal')
 title('Knapsack - Complexidade Programação Dinâmica vs Algoritmo Genético');
 ylabel('tempo(ms)');
 xlabel('Número de items');

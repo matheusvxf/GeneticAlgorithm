@@ -1,0 +1,7 @@
+run analyses_salesman_variance.m;
+run analyses_salesman_number_cities.m;
+run analyses_salesman_generations_development.m;
+run analyses_knapsack_variance.m;
+run analyses_knapsack_capacity.m;
+run analyses_knapsack_number_items.m;
+run analyses_knapsack_generations_development.m;

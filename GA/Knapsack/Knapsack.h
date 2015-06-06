@@ -33,7 +33,7 @@ private:
     int knapsack_capacity_;
 public:
     Knapsack();
-    ~Knapsack();
+    virtual ~Knapsack();
 
     std::pair< int, std::set< int > > SolveDynamicProgramming();
     std::set<int> FindKnapsack(const std::vector< std::vector<int> > &m, int item, int weight);

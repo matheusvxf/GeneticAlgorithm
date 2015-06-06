@@ -9,6 +9,7 @@
 class SolverInterface
 {
 public:
+    virtual ~SolverInterface() {}
     virtual std::string SolveExactSolution() = 0;
     virtual GeneticAlgorithm::SolutionVector& SolveGeneticAlgorithm() = 0;
     virtual GeneticAlgorithm& ga_manager() = 0;
@@ -30,7 +31,7 @@ protected:
     void SolveGeneticAlgorithm(const std::string& file);
 public:
     TestWrapper(SolverInterface *solver) : solver_(solver) {}
-    virtual ~TestWrapper() { delete solver_; }
+    virtual ~TestWrapper();
 
     void Solve();
 

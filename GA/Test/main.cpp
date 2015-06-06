@@ -1,3 +1,5 @@
+#include "Common.h"
+
 #include <time.h>
 #include <iostream>
 #include <fstream>
@@ -5,7 +7,6 @@
 
 #include "Knapsack.h"
 #include "Salesman.h"
-#include "Common.h"
 #include "TesterFiles.h"
 
 // Private functions
@@ -41,12 +42,13 @@ std::string TSPLogDir = KTSPDir + "variance/";
 std::string TSPTestFile = kTSPVarianceTestFile;
 #endif
 
-int Test::Task = (RUN_SALESMAN_NORMAL);
+int Test::Task = (RUN_KNAPSACK_NORMAL | CREATE_TEST);
 bool Test::RunningVarianceTest = false;
 
 int main()
 {
     using namespace std;
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 
     // Initialize random seed
     srand((uint32_t)time(NULL));
@@ -189,7 +191,7 @@ void GenKnapsackVarianceTest()
 {
     std::fstream fs;
     int weight = 1000;
-    int num_items = 100;
+    int num_items = 200;
     std::string str_test = Knapsack::ProblemGenerator(num_items, weight);
 
     fs.open(kInputDir + kKnapsackVarianceTestFile, std::fstream::out);

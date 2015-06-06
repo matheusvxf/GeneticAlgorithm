@@ -6,6 +6,11 @@
 #include "Logger.h"
 #include "TesterFiles.h"
 
+TestWrapper::~TestWrapper()
+{
+    delete solver_;
+}
+
 void TestWrapper::Solve()
 {
     std::fstream fs;

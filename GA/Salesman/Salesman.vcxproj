@@ -83,13 +83,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Combination.h" />
     <ClInclude Include="TSPGenetic.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="Salesman.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Combination.cpp" />
     <ClCompile Include="TSPGenetic.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="Salesman.cpp" />
